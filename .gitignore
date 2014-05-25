@@ -1,0 +1,5 @@
+.idea
+.DS_Store
+._*
+.sass-cache
+Thumbs.db
