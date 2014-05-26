@@ -1,7 +1,30 @@
 {# app/views/users/new.volt #}
 
+{%  block flash %}
+    {{ flashSession.output() }}
+{% endblock %}
 
-{{ form('users/create', 'method': 'post') }}
+{% block new_user_form %}
 
+    {{ form('users/create', 'method': 'post') }}
 
-</form>
+        <label for="name">Name:</label>
+        {{ text_field('name', 'size': 32, 'id': 'name') }}
+
+        <label for="email">Email:</label>
+        {{ email_field('email', 'size': 32, 'id': 'email') }}
+
+        <label for="confirm_email">Confirm Email:</label>
+        {{ email_field('confirm_email', 'size': 32, 'id': 'confirm_email') }}
+
+         <label for="password">Password:</label>
+        {{ password_field('password', 'size': 32, 'id': 'password') }}
+
+        <label for="confirm_password">Confirm Password:</label>
+        {{ password_field('confirm_password', 'size': 32, 'id': 'confirm_password') }}
+
+        {{ submit_button('submit') }}
+
+    </form>
+
+{% endblock %}

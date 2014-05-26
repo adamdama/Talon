@@ -39,7 +39,8 @@ $di->set('view', function () use ($config) {
 
             $volt->setOptions(array(
                 'compiledPath' => $config->application->cacheDir,
-                'compiledSeparator' => '_'
+                'compiledSeparator' => '_',
+	            'compileAlways' => true
             ));
 
             return $volt;
@@ -78,3 +79,17 @@ $di->set('session', function () {
 
     return $session;
 });
+
+/**
+ * Set up the flash service
+ */
+$di->set('flash', function() {
+	return new \Phalcon\Flash\Direct();
+});
+
+/**
+ * Set global access to config, excluding db settings
+ */
+$conf = clone $config;
+unset($conf['db']);
+$di->set('config', $conf);

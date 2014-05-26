@@ -7,4 +7,6 @@
 
 class ModelBase extends Phalcon\Mvc\Model {
 
+	protected $columns;
+
 } 
