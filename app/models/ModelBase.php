@@ -1,10 +1,10 @@
 <?php
 /**
  * ModelBase.php 
- * @author Adam
+ * @author Adam Cox
  * @created 26/05/14
  */
 
-class ModelBase {
+class ModelBase extends Phalcon\Mvc\Model {
 
 } 
