@@ -2,8 +2,16 @@
 
 use Phalcon\Mvc\Controller;
 
+/**
+ * Class ControllerBase
+ *
+ * The one controller to rule them all
+ */
 class ControllerBase extends Controller
 {
+	/**
+	 * Everything a growing controller needs
+	 */
 	protected function initialize()
 	{
 		//Phalcon\Tag::prependTitle('INVO | ');
@@ -25,6 +33,13 @@ class ControllerBase extends Controller
 		);
 	}
 
+	/**
+	 * Make sure that the request is what we were expecting
+	 *
+	 * @param string $method
+	 * @param array $params
+	 * @return bool
+	 */
 	protected function validateRequest($method = 'post', array $params = array()) {
 		$valid = $method === 'post' ? $this->request->isPost() : !$this->request->isPost();
 

@@ -1,9 +1,15 @@
 <?php
 
+/**
+ * Class IndexController
+ */
 class IndexController extends ControllerBase
 {
 
-    public function indexAction()
+	/**
+	 * Home sweet home
+	 */
+	public function indexAction()
     {
 
     }

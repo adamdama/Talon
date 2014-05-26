@@ -1,10 +1,17 @@
 <?php
 
 
-
+/**
+ * Class UsersController
+ *
+ *
+ */
 class UsersController extends ControllerBase
 {
 
+	/**
+	 * Setup the page
+	 */
 	public function initialize()
 	{
 		//$this->view->setTemplateAfter('main');
@@ -12,16 +19,27 @@ class UsersController extends ControllerBase
 		parent::initialize();
 	}
 
-    public function indexAction()
+	/**
+	 * Users home page
+	 */
+	public function indexAction()
     {
 
     }
 
+	/**
+	 * User registeation
+	 */
 	public function newAction()
 	{
 
 	}
 
+	/**
+	 * Create a new user
+	 *
+	 * @return \Phalcon\Http\ResponseInterface
+	 */
 	public function createAction()
 	{
 		// make sure request is post
@@ -42,6 +60,9 @@ class UsersController extends ControllerBase
 		}
 	}
 
+	/**
+	 * User registered
+	 */
 	public function registeredAction() {
 
 	}

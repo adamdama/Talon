@@ -40,7 +40,7 @@ $di->set('view', function () use ($config) {
             $volt->setOptions(array(
                 'compiledPath' => $config->application->cacheDir,
                 'compiledSeparator' => '_',
-	            'compileAlways' => true
+	            'compileAlways' => true // turns off caching
             ));
 
             return $volt;

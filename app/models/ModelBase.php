@@ -1,12 +1,12 @@
 <?php
 /**
- * ModelBase.php 
- * @author Adam Cox
- * @created 26/05/14
+ * Class ModelBase
  */
-
 class ModelBase extends Phalcon\Mvc\Model {
 
-	protected $columns;
+	/**
+	 * @var array
+	 */
+	protected $columns = array();
 
 } 

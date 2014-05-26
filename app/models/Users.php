@@ -4,6 +4,9 @@ use Phalcon\Mvc\Model\Validator\Email as Email,
 	Phalcon\Mvc\Model\Validator\Uniqueness as Uniqueness,
 	Phalcon\Mvc\Model\Message as Message;
 
+/**
+ * Class Users
+ */
 class Users extends ModelBase
 {
 
@@ -38,11 +41,20 @@ class Users extends ModelBase
     public $modified;
 
 
+	/**
+	 * @var string
+	 */
 	protected $confirmEmail;
 
 
+	/**
+	 * @var string
+	 */
 	protected $confirmPassword;
 
+	/**
+	 * @var array
+	 */
 	protected $columns = array(
 		'id' => 'id',
 		'name' => 'name',
@@ -52,6 +64,13 @@ class Users extends ModelBase
 		'modified' => 'modified'
 	);
 
+	/**
+	 * Write data to the db record
+	 *
+	 * @param null|array $data
+	 * @param null|array $whiteList
+	 * @return bool
+	 */
 	public function save($data = null, $whiteList = null)
 	{
 		$data['created'] = $data['modified'] = new Phalcon\Db\RawValue('now()');
@@ -69,10 +88,13 @@ class Users extends ModelBase
 		return parent::save($data, $whiteList);
 	}
 
+
 	/**
-     * Validations and business logic
-     */
-    public function validation()
+	 * Validate the passed in data
+	 *
+	 * @return bool
+	 */
+	public function validation()
     {
 	    $fail = false;
 
@@ -127,6 +149,8 @@ class Users extends ModelBase
 
     /**
      * Independent Column Mapping.
+     *
+     * @return array
      */
     public function columnMap()
     {
