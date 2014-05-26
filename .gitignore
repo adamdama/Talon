@@ -3,3 +3,5 @@
 ._*
 .sass-cache
 Thumbs.db
+cache
+app/cache
