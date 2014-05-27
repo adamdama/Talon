@@ -81,11 +81,24 @@ $di->set('session', function () {
 });
 
 /**
- * Set up the flash service
+ * Set up the flash messaging service
  */
 $di->set('flash', function() {
 	return new \Phalcon\Flash\Direct();
 });
+
+/**
+ * Set up the security service
+ */
+$di->set('security', function(){
+
+	$security = new Phalcon\Security();
+
+	//Set the password hashing factor to 12 rounds
+	$security->setWorkFactor(12);
+
+	return $security;
+}, true);
 
 /**
  * Set global access to config, excluding db settings

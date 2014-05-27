@@ -85,6 +85,8 @@ class Users extends ModelBase
 		$whiteList[] = 'created';
 		$whiteList[] = 'modified';
 
+		$data['password'] = $this->encryptPassword($data['password']);
+
 		return parent::save($data, $whiteList);
 	}
 
@@ -157,4 +159,13 @@ class Users extends ModelBase
         return $this->columns;
     }
 
+	/**
+	 * Encrypt the password (for Merlijn)
+	 */
+	protected function encryptPassword($password) {
+
+		$this->security->hash($password);
+
+		return $password;
+	}
 }
