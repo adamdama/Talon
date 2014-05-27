@@ -1,4 +1,4 @@
-##Seed CMS
+##Talon CMS
 
 A CMS built on Phalcon framework.
 
