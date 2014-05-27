@@ -122,15 +122,6 @@ class Users extends ModelBase
 		    $fail = true;
 	    }
 
-	    if (empty($this->password)) {
-		    $text = 'Password cannot be empty';
-		    $field = 'password';
-		    $type = 'PresenceOf';
-		    $message = new \Phalcon\Mvc\Model\Message($text, $field, $type);
-		    $this->appendMessage($message);
-		    $fail = true; //this will abort the operation
-	    }
-
 	    // check passwords match
 	    if ($this->password != $this->confirmPassword) {
 		    $message = new Message("Passwords must match", 'password', 'Confirmation');
