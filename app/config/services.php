@@ -52,7 +52,7 @@ $di->set('view', function () use ($config) {
 }, true);
 
 /**
- * Database connection is created based in the parameters defined in the configuration file
+ * Database connection is created based on the parameters defined in the configuration file
  */
 $di->set('db', function () use ($config) {
     return new DbAdapter(array(
