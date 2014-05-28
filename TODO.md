@@ -4,3 +4,4 @@
 * setup some useful volt macros
 * error collection for missing error messages
 * git hook before commit dump db
+* Model Meta Data
