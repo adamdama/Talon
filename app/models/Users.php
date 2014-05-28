@@ -44,25 +44,35 @@ class Users extends ModelBase
 	/**
 	 * @var string
 	 */
-	protected $confirmEmail;
+	public $confirmEmail;
 
 
 	/**
 	 * @var string
 	 */
-	protected $confirmPassword;
+	public $confirmPassword;
 
 	/**
-	 * @var array
+	 * @var bool
 	 */
-	protected $columns = array(
-		'id' => 'id',
-		'name' => 'name',
-		'email' => 'email',
-		'password' => 'password',
-		'created' => 'created',
-		'modified' => 'modified'
-	);
+	protected $hashPassword = false;
+
+	/**
+	 * Independent Column Mapping.
+	 *
+	 * @return array
+	 */
+	public function columnMap()
+	{
+		return array(
+			'id' => 'id',
+			'name' => 'name',
+			'email' => 'email',
+			'password' => 'password',
+			'created' => 'created',
+			'modified' => 'modified'
+		);
+	}
 
 	/**
 	 * Write data to the db record
@@ -73,17 +83,16 @@ class Users extends ModelBase
 	 */
 	public function save($data = null, $whiteList = null)
 	{
-		$data['created'] = $data['modified'] = new Phalcon\Db\RawValue('now()');
-
-		$this->confirmEmail = $data['confirm_email'];
-		$this->confirmPassword = $data['confirm_password'];
-
-		if(!is_array($whiteList)) {
-			$whiteList = array('name', 'email', 'password');
+		// if this is the first time the user is being saved then we need to hash  the password
+		if(empty($this->password)) {
+			$this->hashPassword = true;
+		} else {
+			//ensure validation doesn't fire after first save
+			$this->confirmPassword = null;
+			$this->confirmEmail = null;
 		}
 
-		$whiteList[] = 'created';
-		$whiteList[] = 'modified';
+		$this->modified = new Phalcon\Db\RawValue('now()');
 
 		return parent::save($data, $whiteList);
 	}
@@ -96,6 +105,7 @@ class Users extends ModelBase
 	 */
 	public function validation()
     {
+
 	    $fail = false;
 
         $this->validate(
@@ -116,19 +126,19 @@ class Users extends ModelBase
 		    )
 	    );
 
-	    if ($this->validationHasFailed() == true) {
+	    if ($this->validationHasFailed() === true) {
 		    $fail = true;
 	    }
 
 	    // check passwords match
-	    if ($this->password != $this->confirmPassword) {
+	    if (!empty($this->confirmPassword) && $this->password !== $this->confirmPassword) {
 		    $message = new Message("Passwords must match", 'password', 'Confirmation');
 		    $this->appendMessage($message);
 		    $fail = true;
 	    }
 
 		//check provided emails match
-	    if ($this->email != $this->confirmEmail) {
+	    if (!empty($this->confirmEmail) && $this->email !== $this->confirmEmail) {
 		    $message = new Message("Email address must match", 'email', 'Confirmation');
 		    $this->appendMessage($message);
 		    $fail = true;
@@ -138,17 +148,8 @@ class Users extends ModelBase
 		    return false; //this will abort the operation
 
 	    // if successful hash password
-	    $this->encryptPassword($this->password);
-    }
-
-    /**
-     * Independent Column Mapping.
-     *
-     * @return array
-     */
-    public function columnMap()
-    {
-        return $this->columns;
+	    if($this->hashPassword)
+	        $this->password = $this->encryptPassword($this->password);
     }
 
 	/**
@@ -156,9 +157,9 @@ class Users extends ModelBase
 	 */
 	protected function encryptPassword($password) {
 		// get the security service and hash
-//		$this->password = $this->getDI()
-//			->getSecurity()
-//			->hash($password);
+		$password = $this->getDI()
+			->getSecurity()
+			->hash($password);
 
 		return $password;
 	}

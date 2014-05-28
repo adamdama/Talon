@@ -48,8 +48,13 @@ class UsersController extends ControllerBase
 		}
 
 		$user = new Users();
+		$data = $this->request->getPost();
 
-		if ($user->save($this->request->getPost(), array('name', 'email', 'password')) === false) {
+		$user->created = new Phalcon\Db\RawValue('now()');
+		$user->confirmEmail = $data['confirm_email'];
+		$user->confirmPassword = $data['confirm_password'];
+
+		if ($user->save($data, array('name', 'email', 'password', 'created')) === false) {
 			foreach ($user->getMessages() as $message) {
 				$this->flashSession->error((string) $message);
 			}
