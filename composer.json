@@ -1,0 +1,15 @@
+{
+	"name": "adamjcox/talon",
+	"description": "Talon: A CMS built on Phalcon Framework",
+	"minimum-stability": "stable",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Adam Cox",
+			"email": "adamdama@hotmail.com"
+		}
+	],
+	"require": {
+		"phalcon/incubator": "1.3.0.x-dev"
+	}
+}
