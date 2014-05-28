@@ -16,6 +16,6 @@
 
         {{ submit_button('Login') }}
 
-    </form>
+    {{ end_form() }}
 
 {% endblock %}

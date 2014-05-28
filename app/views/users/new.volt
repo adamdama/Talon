@@ -25,6 +25,6 @@
 
         {{ submit_button('submit') }}
 
-    </form>
+    {{ end_form() }}
 
 {% endblock %}

@@ -1,7 +1,11 @@
 <?php
+namespace Talon\Models;
+
+use \Phalcon\Mvc\Model;
+
 /**
  * Class ModelBase
  */
-class ModelBase extends Phalcon\Mvc\Model {
+class ModelBase extends Model {
 
 } 

@@ -1,12 +1,14 @@
 <?php
 
-use Phalcon\DI\FactoryDefault;
-use Phalcon\Mvc\View;
-use Phalcon\Mvc\Url as UrlResolver;
-use Phalcon\Db\Adapter\Pdo\Mysql as DbAdapter;
-use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
-use Phalcon\Mvc\Model\Metadata\Memory as MetaDataAdapter;
-use Phalcon\Session\Adapter\Files as SessionAdapter;
+use \Phalcon\DI\FactoryDefault,
+	\Phalcon\Mvc\View,
+	\Phalcon\Mvc\Url as UrlResolver,
+	\Phalcon\Mvc\Dispatcher as Dispatcher,
+	\Phalcon\Db\Adapter\Pdo\Mysql as DbAdapter,
+	\Phalcon\Mvc\View\Engine\Volt as VoltEngine,
+	/** @noinspection PhpUnusedAliasInspection */
+	\Phalcon\Mvc\Model\Metadata\Memory as MetaDataAdapter,
+	\Phalcon\Session\Adapter\Files as SessionAdapter;
 
 /**
  * The FactoryDefault Dependency Injector automatically register the right services providing a full stack framework
@@ -22,6 +24,15 @@ $di->set('url', function () use ($config) {
 
     return $url;
 }, true);
+
+/**
+ * Registering a dispatcher
+ */
+$di->set('dispatcher', function() {
+	$dispatcher = new Dispatcher();
+	$dispatcher->setDefaultNamespace('Talon\Controllers');
+	return $dispatcher;
+});
 
 /**
  * Setting up the view component

@@ -1,9 +1,11 @@
 <?php
+namespace Talon\Models;
 
-use Phalcon\Mvc\Model\Validator\Email as Email,
-	Phalcon\Mvc\Model\Validator\Uniqueness as Uniqueness,
-	Phalcon\Mvc\Model\Validator\ConfirmationOf as ConfirmationOf,
-	Phalcon\Mvc\Model\Validator\PresenceOf as PresenceOf;
+use \Phalcon\Mvc\Model\Validator\Email as Email,
+	\Phalcon\Mvc\Model\Validator\Uniqueness as Uniqueness,
+	\Phalcon\Mvc\Model\Validator\ConfirmationOf as ConfirmationOf,
+	\Phalcon\Mvc\Model\Validator\PresenceOf as PresenceOf,
+	\Phalcon\Db\RawValue as RawValue;
 
 /**
  * Class Users
@@ -89,14 +91,14 @@ class Users extends ModelBase
 	 * Before we validate the data we need to generate a modified date
 	 */
 	public function beforeValidation() {
-		$this->modified = new Phalcon\Db\RawValue('now()');
+		$this->modified = new RawValue('now()');
 	}
 
 	/**
 	 * Before we validate the data we need to generate a modified date
 	 */
 	public function beforeValidationOnCreate() {
-		$this->created = new Phalcon\Db\RawValue('now()');
+		$this->created = new RawValue('now()');
 	}
 
 	/**
@@ -164,6 +166,8 @@ class Users extends ModelBase
 
 	    if ($this->validationHasFailed() === true)
 		    return false; //this will abort the operation
+
+	    return true;
     }
 
 	/**
@@ -171,6 +175,7 @@ class Users extends ModelBase
 	 */
 	protected function encryptPassword($password) {
 		// get the security service and hash
+		/** @noinspection PhpUndefinedMethodInspection */
 		$password = $this->getDI()
 			->getSecurity()
 			->hash($password);

@@ -1,6 +1,7 @@
 <?php
+namespace Talon\Controllers;
 
-use Phalcon\Mvc\Controller;
+use \Phalcon\Mvc\Controller;
 
 /**
  * Class ControllerBase
@@ -14,14 +15,13 @@ class ControllerBase extends Controller
 	 */
 	protected function initialize()
 	{
-		//Phalcon\Tag::prependTitle('INVO | ');
+		//Phalcon\Tag::prependTitle('Talon | ');
 	}
 
 	/**
 	 * Method for forwarding requests to different controller actions
 	 *
 	 * @param $uri
-	 * @return forwarde
 	 */
 	protected function forward($uri){
 		$uriParts = explode('/', $uri);
@@ -37,10 +37,9 @@ class ControllerBase extends Controller
 	 * Make sure that the request is what we were expecting
 	 *
 	 * @param string $method
-	 * @param array $params
 	 * @return bool
 	 */
-	protected function validateRequest($method = 'post', array $params = array()) {
+	protected function validateRequest($method = 'post') {
 		$valid = $method === 'post' ? $this->request->isPost() : !$this->request->isPost();
 
 		return $valid;

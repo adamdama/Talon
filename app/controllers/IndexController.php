@@ -1,4 +1,5 @@
 <?php
+namespace Talon\Controllers;
 
 /**
  * Class IndexController

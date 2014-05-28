@@ -1,5 +1,7 @@
 <?php
+namespace Talon\Controllers;
 
+use Talon\Models\Users as Users;
 
 /**
  * Class UsersController
@@ -28,7 +30,7 @@ class UsersController extends ControllerBase
     }
 
 	/**
-	 * User registeation
+	 * User registration
 	 */
 	public function newAction()
 	{
@@ -44,7 +46,8 @@ class UsersController extends ControllerBase
 	{
 		// make sure request is post
 		if(!$this->validateRequest()) {
-			return $this->response->redirect('users/new');
+			$this->response->redirect('users/new');
+			return;
 		}
 
 		$user = new Users();
@@ -63,11 +66,13 @@ class UsersController extends ControllerBase
 			foreach ($user->getMessages() as $message) {
 				$this->flashSession->error((string) $message);
 			}
-			return $this->forward('users/new');
+			$this->forward('users/new');
 		} else {
 			$this->flashSession->success('Thanks for sign-up.');
-			return $this->forward('users/registered');
+			$this->forward('users/registered');
 		}
+
+		return;
 	}
 
 	/**

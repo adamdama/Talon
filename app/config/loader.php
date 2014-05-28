@@ -3,20 +3,13 @@
 $loader = new \Phalcon\Loader();
 
 /**
- * We're a registering a set of directories taken from the configuration file
- */
-$loader->registerDirs(
-    array(
-        $config->application->controllersDir,
-        $config->application->modelsDir
-    )
-)->register();
-
-/**
  * Registering the Incubator namespace so that we can load classes from it
+ * We're also registering a set of directories taken from the configuration file
  */
 $loader->registerNamespaces(array(
-	'Phalcon' => dirname(__FILE__).'/../../vendor/phalcon/incubator/Library/Phalcon/'
+	'Phalcon' => $config->application->incubatorDir,
+	'Talon\Models' => $config->application->modelsDir,
+	'Talon\Controllers' => $config->application->controllersDir
 ));
 
 $loader->register();
