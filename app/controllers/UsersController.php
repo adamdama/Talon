@@ -48,19 +48,24 @@ class UsersController extends ControllerBase
 		}
 
 		$user = new Users();
-		$data = $this->request->getPost();
+		// filter post data for desired values
+		$data = array(
+			'name' => $this->request->getPost('name'),
+			'email' => $this->request->getPost('email'),
+			'password' => $this->request->getPost('password')
+		);
 
-		$user->created = new Phalcon\Db\RawValue('now()');
-		$user->confirmEmail = $data['confirm_email'];
-		$user->confirmPassword = $data['confirm_password'];
+		// set confirmation values
+		$user->confirmEmail = $this->request->getPost('confirm_email');
+		$user->confirmPassword = $this->request->getPost('confirm_password');
 
-		if ($user->save($data, array('name', 'email', 'password', 'created')) === false) {
+		if ($user->save($data) === false) {
 			foreach ($user->getMessages() as $message) {
 				$this->flashSession->error((string) $message);
 			}
 			return $this->forward('users/new');
 		} else {
-			$this->flashSession->success('Thanks for sign-up, please log-in to start generating invoices');
+			$this->flashSession->success('Thanks for sign-up.');
 			return $this->forward('users/registered');
 		}
 	}

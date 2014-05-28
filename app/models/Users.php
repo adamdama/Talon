@@ -2,7 +2,8 @@
 
 use Phalcon\Mvc\Model\Validator\Email as Email,
 	Phalcon\Mvc\Model\Validator\Uniqueness as Uniqueness,
-	Phalcon\Mvc\Model\Message as Message;
+	Phalcon\Mvc\Model\Validator\ConfirmationOf as ConfirmationOf,
+	Phalcon\Mvc\Model\Validator\PresenceOf as PresenceOf;
 
 /**
  * Class Users
@@ -53,9 +54,12 @@ class Users extends ModelBase
 	public $confirmPassword;
 
 	/**
-	 * @var bool
+	 * Boot up the model and set some default settings
 	 */
-	protected $hashPassword = false;
+	public function initialize()
+	{
+		// there once was something here
+	}
 
 	/**
 	 * Independent Column Mapping.
@@ -75,28 +79,25 @@ class Users extends ModelBase
 	}
 
 	/**
-	 * Write data to the db record
-	 *
-	 * @param null|array $data
-	 * @param null|array $whiteList
-	 * @return bool
+	 * Before first time record creation we need to secure the password
 	 */
-	public function save($data = null, $whiteList = null)
-	{
-		// if this is the first time the user is being saved then we need to hash  the password
-		if(empty($this->password)) {
-			$this->hashPassword = true;
-		} else {
-			//ensure validation doesn't fire after first save
-			$this->confirmPassword = null;
-			$this->confirmEmail = null;
-		}
-
-		$this->modified = new Phalcon\Db\RawValue('now()');
-
-		return parent::save($data, $whiteList);
+	public function beforeCreate() {
+		$this->password = $this->encryptPassword($this->password);
 	}
 
+	/**
+	 * Before we validate the data we need to generate a modified date
+	 */
+	public function beforeValidation() {
+		$this->modified = new Phalcon\Db\RawValue('now()');
+	}
+
+	/**
+	 * Before we validate the data we need to generate a modified date
+	 */
+	public function beforeValidationOnCreate() {
+		$this->created = new Phalcon\Db\RawValue('now()');
+	}
 
 	/**
 	 * Validate the passed in data
@@ -105,14 +106,11 @@ class Users extends ModelBase
 	 */
 	public function validation()
     {
-
-	    $fail = false;
-
         $this->validate(
             new Email(
                 array(
                     'field'    => 'email',
-	                'message'  => 'email must be unique'
+	                'message'  => 'email must be valid email format'
                 )
             )
         );
@@ -126,30 +124,46 @@ class Users extends ModelBase
 		    )
 	    );
 
-	    if ($this->validationHasFailed() === true) {
-		    $fail = true;
-	    }
+	    $this->validate(
+		    new PresenceOf(
+			    array(
+				    'field' => 'confirmEmail',
+				    'message' => 'Confirmation email must be provided'
+			    )
+		    )
+	    );
 
-	    // check passwords match
-	    if (!empty($this->confirmPassword) && $this->password !== $this->confirmPassword) {
-		    $message = new Message("Passwords must match", 'password', 'Confirmation');
-		    $this->appendMessage($message);
-		    $fail = true;
-	    }
+	    $this->validate(
+		    new ConfirmationOf(
+			    array(
+				    'field' => 'email',
+				    'field_confirmation' => 'confirmEmail',
+				    'message' => 'Emails must match'
+			    )
+		    )
+	    );
 
-		//check provided emails match
-	    if (!empty($this->confirmEmail) && $this->email !== $this->confirmEmail) {
-		    $message = new Message("Email address must match", 'email', 'Confirmation');
-		    $this->appendMessage($message);
-		    $fail = true;
-	    }
+	    $this->validate(
+		    new PresenceOf(
+			    array(
+				    'field' => 'confirmPassword',
+				    'message' => 'Confirmation password must be provided'
+			    )
+		    )
+	    );
 
-	    if($fail)
+	    $this->validate(
+		    new ConfirmationOf(
+			    array(
+				    'field' => 'password',
+				    'field_confirmation' => 'confirmPassword',
+				    'message' => 'Passwords must match'
+			    )
+		    )
+	    );
+
+	    if ($this->validationHasFailed() === true)
 		    return false; //this will abort the operation
-
-	    // if successful hash password
-	    if($this->hashPassword)
-	        $this->password = $this->encryptPassword($this->password);
     }
 
 	/**
