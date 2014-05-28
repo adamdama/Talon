@@ -11,3 +11,12 @@ $loader->registerDirs(
         $config->application->modelsDir
     )
 )->register();
+
+/**
+ * Registering the Incubator namespace so that we can load classes from it
+ */
+$loader->registerNamespaces(array(
+	'Phalcon' => dirname(__FILE__).'/../../vendor/phalcon/incubator/Library/Phalcon/'
+));
+
+$loader->register();
