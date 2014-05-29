@@ -45,7 +45,7 @@ class UsersController extends ControllerBase
 	public function createAction()
 	{
 		// make sure request is post
-		if(!$this->validateRequest()) {
+		if(!$this->validateRequest(array('method' => 'post', 'token' => 'token'))) {
 			$this->response->redirect('users/new');
 			return;
 		}
@@ -66,10 +66,10 @@ class UsersController extends ControllerBase
 			foreach ($user->getMessages() as $message) {
 				$this->flashSession->error((string) $message);
 			}
-			$this->forward('users/new');
+			$this->response->redirect('users/new');
 		} else {
 			$this->flashSession->success('Thanks for sign-up.');
-			$this->forward('users/registered');
+			$this->response->redirect('users/registered');
 		}
 
 		return;

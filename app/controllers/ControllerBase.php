@@ -37,11 +37,28 @@ class ControllerBase extends Controller
 	/**
 	 * Make sure that the request is what we were expecting
 	 *
-	 * @param string $method
+	 * @param array $checks
 	 * @return bool
 	 */
-	protected function validateRequest($method = 'post') {
-		$valid = $method === 'post' ? $this->request->isPost() : !$this->request->isPost();
+	protected function validateRequest($checks = array()) {
+		$valid = true;
+
+		foreach($checks as $key => $value) {
+			if($key === 'method' && $value === 'post') {
+				$valid = $this->request->isPost();
+
+				if(!$valid)
+					$this->flashSession->error("Only POST requests can be meade to this URL");
+			} elseif($key === 'token') {
+				$valid = $this->security->checkToken();
+
+				if(!$valid)
+					$this->flashSession->error("Incorrect security token");
+			}
+
+			if(!$valid)
+				break;
+		}
 
 		return $valid;
 	}

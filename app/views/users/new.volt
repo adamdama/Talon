@@ -23,6 +23,8 @@
         <label for="confirm_password">Confirm Password:</label>
         {{ password_field('confirm_password', 'size': 32, 'id': 'confirm_password') }}
 
+        {{ hidden_field(security.getTokenKey(), 'value': security.getToken()) }}
+
         {{ submit_button('submit') }}
 
     {{ end_form() }}
