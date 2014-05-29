@@ -1,7 +1,8 @@
 <?php
 namespace Talon\Controllers;
 
-use \Phalcon\Mvc\Controller;
+use \Phalcon\Mvc\Controller,
+	\Phalcon\Tag;
 
 /**
  * Class ControllerBase
@@ -15,7 +16,7 @@ class ControllerBase extends Controller
 	 */
 	protected function initialize()
 	{
-		//Phalcon\Tag::prependTitle('Talon | ');
+		Tag::prependTitle('Talon | ');
 	}
 
 	/**
