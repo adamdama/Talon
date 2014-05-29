@@ -114,6 +114,4 @@ $di->set('security', function(){
 /**
  * Set global access to config, excluding db settings
  */
-$conf = clone $config;
-unset($conf['db']);
-$di->set('config', $conf);
+$di->set('config', $config);
