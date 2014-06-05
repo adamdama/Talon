@@ -9,7 +9,8 @@ $loader = new \Phalcon\Loader();
 $loader->registerNamespaces(array(
 	'Phalcon' => $config->application->incubatorDir,
 	'Talon\Models' => $config->application->modelsDir,
-	'Talon\Controllers' => $config->application->controllersDir
+	'Talon\Controllers' => $config->application->controllersDir,
+	'Talon\Forms' => $config->application->formsDir,
 ));
 
 $loader->register();

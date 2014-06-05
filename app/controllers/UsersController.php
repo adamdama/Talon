@@ -1,7 +1,7 @@
 <?php
 namespace Talon\Controllers;
 
-use Talon\Models\Users as Users;
+use Talon\Models\Users;
 
 /**
  * Class UsersController
@@ -24,27 +24,18 @@ class UsersController extends ControllerBase
 	/**
 	 * Users home page
 	 */
-	public function indexAction()
-    {
+	public function indexAction() {
 
     }
-
-	/**
-	 * User registration
-	 */
-	public function newAction()
-	{
-
-	}
 
 	/**
 	 * Create a new user
 	 *
 	 * @return \Phalcon\Http\ResponseInterface
 	 */
-	public function createAction()
+	public function newAction()
 	{
-		// make sure request is post
+		// make sure request is post and the token is valid
 		if(!$this->validateRequest(array('method' => 'post', 'token' => 'token'))) {
 			$this->response->redirect('users/new');
 			return;
@@ -73,13 +64,6 @@ class UsersController extends ControllerBase
 		}
 
 		return;
-	}
-
-	/**
-	 * User registered
-	 */
-	public function registeredAction() {
-
 	}
 
 }

@@ -1,11 +1,9 @@
 <?php
 namespace Talon\Models;
 
-use \Phalcon\Mvc\Model\Validator\Email as Email,
-	\Phalcon\Mvc\Model\Validator\Uniqueness as Uniqueness,
-	\Phalcon\Mvc\Model\Validator\ConfirmationOf as ConfirmationOf,
-	\Phalcon\Mvc\Model\Validator\PresenceOf as PresenceOf,
-	\Phalcon\Db\RawValue as RawValue;
+use \Phalcon\Mvc\Model\Validator\Email,
+	\Phalcon\Mvc\Model\Validator\Uniqueness,
+	\Phalcon\Db\RawValue;
 
 /**
  * Class Users
@@ -42,18 +40,6 @@ class Users extends ModelBase
      * @var string
      */
     public $modified;
-
-
-	/**
-	 * @var string
-	 */
-	public $confirmEmail;
-
-
-	/**
-	 * @var string
-	 */
-	public $confirmPassword;
 
 	/**
 	 * Boot up the model and set some default settings
@@ -122,44 +108,6 @@ class Users extends ModelBase
 			    array(
 				    'field'    => 'email',
 				    'message'  => 'email already registered'
-			    )
-		    )
-	    );
-
-	    $this->validate(
-		    new PresenceOf(
-			    array(
-				    'field' => 'confirmEmail',
-				    'message' => 'Confirmation email must be provided'
-			    )
-		    )
-	    );
-
-	    $this->validate(
-		    new ConfirmationOf(
-			    array(
-				    'field' => 'email',
-				    'field_confirmation' => 'confirmEmail',
-				    'message' => 'Emails must match'
-			    )
-		    )
-	    );
-
-	    $this->validate(
-		    new PresenceOf(
-			    array(
-				    'field' => 'confirmPassword',
-				    'message' => 'Confirmation password must be provided'
-			    )
-		    )
-	    );
-
-	    $this->validate(
-		    new ConfirmationOf(
-			    array(
-				    'field' => 'password',
-				    'field_confirmation' => 'confirmPassword',
-				    'message' => 'Passwords must match'
 			    )
 		    )
 	    );

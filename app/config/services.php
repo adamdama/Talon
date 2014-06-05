@@ -8,7 +8,9 @@ use \Phalcon\DI\FactoryDefault,
 	\Phalcon\Mvc\View\Engine\Volt as VoltEngine,
 	/** @noinspection PhpUnusedAliasInspection */
 	\Phalcon\Mvc\Model\Metadata\Memory as MetaDataAdapter,
-	\Phalcon\Session\Adapter\Files as SessionAdapter;
+	\Phalcon\Session\Adapter\Files as SessionAdapter,
+	\Phalcon\Security as Security,
+	\Phalcon\Flash\Direct as Direct;
 
 /**
  * The FactoryDefault Dependency Injector automatically register the right services providing a full stack framework
@@ -32,6 +34,13 @@ $di->set('dispatcher', function() {
 	$dispatcher = new Dispatcher();
 	$dispatcher->setDefaultNamespace('Talon\Controllers');
 	return $dispatcher;
+});
+
+/**
+ * Loading routes from the routes.php file
+ */
+$di->set('router', function () {
+	return require __DIR__ . '/routes.php';
 });
 
 /**
@@ -95,7 +104,7 @@ $di->set('session', function () {
  * Set up the flash messaging service
  */
 $di->set('flash', function() {
-	return new \Phalcon\Flash\Direct();
+	return new Direct();
 });
 
 /**
@@ -103,7 +112,7 @@ $di->set('flash', function() {
  */
 $di->set('security', function(){
 
-	$security = new Phalcon\Security();
+	$security = new Security();
 
 	//Set the password hashing factor to 12 rounds
 	$security->setWorkFactor(12);
