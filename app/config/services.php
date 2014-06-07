@@ -58,7 +58,7 @@ $di->set('view', function () use ($config) {
             $volt = new VoltEngine($view, $di);
 
             $volt->setOptions(array(
-                'compiledPath' => $config->application->cacheDir,
+                'compiledPath' => $config->application->cacheDir . 'volt/',
                 'compiledSeparator' => '_',
 	            'compileAlways' => true // turns off caching
             ));
@@ -86,8 +86,10 @@ $di->set('db', function () use ($config) {
 /**
  * If the configuration specify the use of metadata adapter use it or use memory otherwise
  */
-$di->set('modelsMetadata', function () {
-    return new MetaDataAdapter();
+$di->set('modelsMetadata', function () use ($config) {
+	return new MetaDataAdapter(array(
+		'metaDataDir' => $config->application->cacheDir . 'metaData/'
+	));
 });
 
 /**

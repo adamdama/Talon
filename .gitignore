@@ -3,6 +3,7 @@
 ._*
 .sass-cache
 Thumbs.db
-cache
-app/cache
+app/cache/metaData/*
+app/cache/volt/*
 vendor/*
+!.gitignore
