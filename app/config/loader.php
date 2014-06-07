@@ -11,6 +11,7 @@ $loader->registerNamespaces(array(
 	'Talon\Models' => $config->application->modelsDir,
 	'Talon\Controllers' => $config->application->controllersDir,
 	'Talon\Forms' => $config->application->formsDir,
+	'Talon' => $config->application->libraryDir
 ));
 
 $loader->register();
