@@ -4,16 +4,19 @@
  */
 $router = new \Phalcon\Mvc\Router();
 
-$router->add('/signup/', array(
+//Remove trailing slashes automatically
+$router->removeExtraSlashes(true);
+
+$router->add('/signup', array(
 	'namespace' => 'Talon\Controllers',
 	'controller' => 'session',
 	'action' => 'signup'
 ));
 
-$router->add('/thank-you/', array(
+$router->add('/login', array(
 	'namespace' => 'Talon\Controllers',
 	'controller' => 'session',
-	'action' => 'registered'
+	'action' => 'login'
 ));
 
 return $router;

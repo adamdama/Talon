@@ -10,12 +10,17 @@ use \Phalcon\Mvc\Model\Validator\Email,
  */
 class Users extends ModelBase
 {
-
-    /**
+	/**
      *
      * @var integer
      */
     public $id;
+
+	/**
+	 *
+	 * @var string
+	 */
+	public $name;
 
     /**
      *
@@ -33,20 +38,51 @@ class Users extends ModelBase
      *
      * @var string
      */
-    public $created;
+    protected $created;
 
-    /**
-     *
-     * @var string
-     */
-    public $modified;
+	/**
+	 *
+	 * @var string
+	 */
+	protected $modified;
+
+	/**
+	 *
+	 * @var int
+	 */
+	public $validated;
+
+	/**
+	 *
+	 * @var int
+	 */
+	public $active;
 
 	/**
 	 * Boot up the model and set some default settings
 	 */
 	public function initialize()
 	{
-		// there once was something here
+		$this->hasMany('id', 'Talon\Models\SuccessLogins', 'usersId', array(
+			'alias' => 'successLogins',
+			'foreignKey' => array(
+				'message' => 'User cannot be deleted because he/she has activity in the system'
+			)
+		));
+
+		$this->hasMany('id', 'Talon\Models\PasswordChanges', 'usersId', array(
+			'alias' => 'passwordChanges',
+			'foreignKey' => array(
+				'message' => 'User cannot be deleted because he/she has activity in the system'
+			)
+		));
+
+		$this->hasMany('id', 'Talon\Models\ResetPasswords', 'usersId', array(
+			'alias' => 'resetPasswords',
+			'foreignKey' => array(
+				'message' => 'User cannot be deleted because he/she has activity in the system'
+			)
+		));
 	}
 
 	/**
@@ -62,7 +98,9 @@ class Users extends ModelBase
 			'email' => 'email',
 			'password' => 'password',
 			'created' => 'created',
-			'modified' => 'modified'
+			'modified' => 'modified',
+			'validated' => 'validated',
+			'active' => 'active'
 		);
 	}
 
@@ -85,6 +123,8 @@ class Users extends ModelBase
 	 */
 	public function beforeValidationOnCreate() {
 		$this->created = new RawValue('now()');
+		$this->active = 1;
+		$this->validated = 1;
 	}
 
 	/**
@@ -123,11 +163,23 @@ class Users extends ModelBase
 	 */
 	protected function encryptPassword($password) {
 		// get the security service and hash
-		/** @noinspection PhpUndefinedMethodInspection */
 		$password = $this->getDI()
 			->getSecurity()
 			->hash($password);
 
 		return $password;
 	}
+
+//	/**
+//	 *
+//	 *
+//	 * @param $email
+//	 * @return bool|\Talon\Models\Users
+//	 */
+//	public static function findFirstByEmail($email) {
+//		if(!is_string($email))
+//			return false;
+//
+//		return self::findFirst(array("email='{$email}'"));
+//	}
 }

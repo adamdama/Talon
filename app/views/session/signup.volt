@@ -1,4 +1,4 @@
-{# app/views/session/signup #}
+{# app/views/session/signup.volt #}
 
 {%  block content %}
     {{  content() }}

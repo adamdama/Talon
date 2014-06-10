@@ -6,11 +6,12 @@ use \Phalcon\DI\FactoryDefault,
 	\Phalcon\Mvc\Dispatcher as Dispatcher,
 	\Phalcon\Db\Adapter\Pdo\Mysql as DbAdapter,
 	\Phalcon\Mvc\View\Engine\Volt as VoltEngine,
-	/** @noinspection PhpUnusedAliasInspection */
-	\Phalcon\Mvc\Model\Metadata\Memory as MetaDataAdapter,
 	\Phalcon\Session\Adapter\Files as SessionAdapter,
-	\Phalcon\Security as Security,
-	\Phalcon\Flash\Direct as Direct;
+	\Phalcon\Mvc\Model\Metadata\Memory as MetaDataAdapter,
+	\Phalcon\Http\Response\Cookies,
+	\Phalcon\Security,
+	\Phalcon\Flash\Direct,
+	\Talon\Auth\Auth;
 
 /**
  * The FactoryDefault Dependency Injector automatically register the right services providing a full stack framework
@@ -79,7 +80,11 @@ $di->set('db', function () use ($config) {
         'host' => $config->database->host,
         'username' => $config->database->username,
         'password' => $config->database->password,
-        'dbname' => $config->database->dbname
+        'dbname' => $config->database->dbname,
+	    'options' => array(
+		    PDO::ATTR_EMULATE_PREPARES => false,
+		    PDO::ATTR_STRINGIFY_FETCHES => false,
+	    )
     ));
 });
 
@@ -110,6 +115,13 @@ $di->set('flash', function() {
 });
 
 /**
+ * Custom authentication component
+ */
+$di->set('auth', function () {
+	return new Auth();
+});
+
+/**
  * Set up the security service
  */
 $di->set('security', function(){
@@ -123,6 +135,19 @@ $di->set('security', function(){
 }, true);
 
 /**
+ * Set the encryption service
+ * Key: 7}T/~"4%[GW*7O-)!"nU
+ */
+$di->setShared('crypt', function() {
+	$crypt = new \Phalcon\Crypt();
+	$crypt->setMode(MCRYPT_MODE_CFB);
+	$crypt->setKey('7}T/~"4%[GW*7O-)!"nU');
+	return $crypt;
+});
+
+/**
  * Set global access to config, excluding db settings
  */
 $di->set('config', $config);
+
+$di->get('auth');

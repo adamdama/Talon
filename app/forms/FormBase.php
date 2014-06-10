@@ -15,7 +15,7 @@ class FormBase extends Form {
 
 		$csrf->addValidator(new Identical(array(
 			'value' => $this->security->getSessionToken(),
-			'message' => 'CSRF validation failed'
+			'message' => 'Security token validation failed'
 		)));
 
 		$this->add($csrf);
