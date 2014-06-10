@@ -1,9 +1,9 @@
 {# app/views/index/index.volt #}
 
-<h1>Congratulations!</h1>
+<h1>Welcome to Talon!</h1>
 
-<p>You're now flying with Phalcon. Great things are about to happen!</p>
+<p>We're now flying on Phalcon. Great things are happening!</p>
 
 <pre>
-{{ linkTo("users/new", "new user") }}
+{{ linkTo("login", "login") }}
 </pre>

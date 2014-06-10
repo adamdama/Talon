@@ -2,12 +2,20 @@
 namespace Talon\Controllers;
 
 use Talon\Forms\Session\SignUpForm,
-	Talon\Models\Users;
+	Talon\Forms\Session\LoginForm,
+	Talon\Forms\Session\ForgotPasswordForm,
+	Talon\Models\Users,
+	Talon\Models\Users\ResetPasswords,
+	Talon\Auth\Auth,
+	Talon\Auth\AuthException;
 
 class SessionController extends ControllerBase
 {
+	/**
+	 * @var Auth $auth
+	 */
 
-    public function indexAction()
+	public function indexAction()
     {
 
     }
@@ -17,10 +25,7 @@ class SessionController extends ControllerBase
 		$form = new SignUpForm();
 
 		if ($this->request->isPost()) {
-
-			$valid = $form->isValid($this->request->getPost());
-
-			if ($valid !== false) {
+			if ($form->isValid($this->request->getPost()) !== false) {
 				$user = new Users();
 				// filter post data for desired values
 				$data = array(
@@ -34,27 +39,58 @@ class SessionController extends ControllerBase
 						$this->flashSession->error($message);
 				} else {
 					$this->flashSession->success('Thanks for sign-up.');
-					$this->response->redirect('session/registered');
+					return $this->response->redirect('session/login');
 				}
-			} else {
-				$this->response->redirect('session/signup');
 			}
 		}
 
 		$this->view->setVar('form', $form);
 	}
 
-	public function loginAction() {
-		// make sure request is post and the token is valid
-		if(!$this->validateRequest(array('method' => 'post', 'token' => 'token'))) {
-			$this->response->redirect('users/new');
-			return;
+	/**
+	 * Starts a session in the admin backend
+	 */
+	public function loginAction()
+	{
+		$form = new LoginForm();
+
+		try {
+			if (!$this->request->isPost()) {
+				if ($this->auth->hasRememberMe()) {
+					if($this->auth->loginWithRememberMe()) {
+						return $this->response->redirect('users');
+					}
+				}
+			} else {
+				if ($form->isValid($this->request->getPost()) == false) {
+					foreach ($form->getMessages() as $message) {
+						$this->flash->error($message);
+					}
+				} else {
+					$this->auth->authenticate(array(
+						'email' => $this->request->getPost('email'),
+						'password' => $this->request->getPost('password'),
+						'remember' => $this->request->getPost('remember')
+					));
+
+					return $this->response->redirect('users');
+				}
+			}
+		} catch (AuthException $e) {
+			$this->flash->error($e->getMessage());
 		}
 
+		$this->view->setVar('form', $form);
 	}
 
-	public function registeredAction() {
+	/**
+	 * Closes the session
+	 */
+	public function logoutAction()
+	{
+		$this->auth->unregisterIdentity();
 
+		return $this->response->redirect('index');
 	}
 }
 

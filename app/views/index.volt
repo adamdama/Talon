@@ -1,3 +1,5 @@
+{# app/views/index.volt #}
+
 <!DOCTYPE html>
 <html>
 	<head>
