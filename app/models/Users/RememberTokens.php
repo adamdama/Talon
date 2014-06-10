@@ -70,7 +70,8 @@ class RememberTokens extends ModelBase
 	}
 
 	public static function deleteCookies(Cookies $cookies) {
-		$cookies->delete(RememberTokens::USER_COOKIE_KEY);
-		$cookies->delete(RememberTokens::TOKEN_COOKIE_KEY);
+		$cookies->set(RememberTokens::USER_COOKIE_KEY, null, 0);
+		$cookies->set(RememberTokens::TOKEN_COOKIE_KEY, null, 0);
+		$cookies->send();
 	}
 }
