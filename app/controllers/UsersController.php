@@ -1,7 +1,7 @@
 <?php
 namespace Talon\Controllers;
 
-use Talon\Models\Users;
+use Talon\Models\Users\Users;
 
 /**
  * Class UsersController

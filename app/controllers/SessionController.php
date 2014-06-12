@@ -4,7 +4,7 @@ namespace Talon\Controllers;
 use Talon\Forms\Session\SignUpForm,
 	Talon\Forms\Session\LoginForm,
 	Talon\Forms\Session\ForgotPasswordForm,
-	Talon\Models\Users,
+	Talon\Models\Users\Users,
 	Talon\Models\Users\ResetPasswords,
 	Talon\Auth\Auth,
 	Talon\Auth\AuthException;

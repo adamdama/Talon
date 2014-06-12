@@ -3,7 +3,7 @@ namespace Talon\Auth;
 
 use \Phalcon\Mvc\User\Component,
 	//\Phalcon\Db\RawValue,
-	Talon\Models\Users,
+	Talon\Models\Users\Users,
 	Talon\Models\Users\RememberTokens,
 	Talon\Models\Users\SuccessLogins,
 	Talon\Models\Users\FailedLogins;

@@ -1,9 +1,10 @@
 <?php
-namespace Talon\Models;
+namespace Talon\Models\Users;
 
 use \Phalcon\Mvc\Model\Validator\Email,
 	\Phalcon\Mvc\Model\Validator\Uniqueness,
-	\Phalcon\Db\RawValue;
+	\Phalcon\Db\RawValue,
+	\Talon\Models\ModelBase;
 
 /**
  * Class Users
@@ -169,17 +170,4 @@ class Users extends ModelBase
 
 		return $password;
 	}
-
-//	/**
-//	 *
-//	 *
-//	 * @param $email
-//	 * @return bool|\Talon\Models\Users
-//	 */
-//	public static function findFirstByEmail($email) {
-//		if(!is_string($email))
-//			return false;
-//
-//		return self::findFirst(array("email='{$email}'"));
-//	}
 }
