@@ -18,7 +18,20 @@ return new \Phalcon\Config(array(
         'cacheDir'       => __DIR__ . '/../../app/cache/',
 	    'incubatorDir'   => __DIR__ . '/../../vendor/phalcon/incubator/Library/Phalcon/',
         'baseUri'        => '/Talon/',
+	    'publicUrl'      => 'http://webdev/Talon'
     ),
+	'mail' => array(
+		'smtp' => array(
+			'server' => 'localhost',
+			'port' => 25,
+			'security' => null,
+			'username' => '',
+			'password' => ''
+		),
+		'senders' => array(
+			'default' => array('noreply@web.dev' => 'Talon')
+		)
+	),
 	'errors' => array(
 		'users' => array(
 			'emailRequired'     => 'Email address is required',

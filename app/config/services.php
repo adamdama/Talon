@@ -11,7 +11,8 @@ use \Phalcon\DI\FactoryDefault,
 	\Phalcon\Http\Response\Cookies,
 	\Phalcon\Security,
 	\Phalcon\Flash\Direct,
-	\Talon\Auth\Auth;
+	\Talon\Auth\Auth,
+	\Talon\Mail\Mail;
 
 /**
  * The FactoryDefault Dependency Injector automatically register the right services providing a full stack framework
@@ -119,6 +120,13 @@ $di->set('flash', function() {
  */
 $di->set('auth', function () {
 	return new Auth();
+});
+
+/**
+ * Custom mail component
+ */
+$di->set('mail', function () {
+	return new Mail();
 });
 
 /**

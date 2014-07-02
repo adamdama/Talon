@@ -8,9 +8,7 @@
     {{ flashSession.output() }}
 {% endblock %}
 
-{% block login_form %}
-
-    {{ form('method': 'post') }}
+{{ form('method': 'post') }}
 
     {{ form.label('email') }}
     {{ form.render('email') }}
@@ -26,11 +24,17 @@
     {{ form.label('remember') }}
     {{ form.messages('remember') }}
 
+    {{ form.render('Login') }}
+
     {{ form.render('csrf', ['value': security.getToken()]) }}
     {{ form.messages('csrf') }}
 
-    {{ form.render('Login') }}
+{{ end_form() }}
 
-    {{ end_form() }}
+{% if resendConfirmation is defined %}
+    {{ link_to('resend-confirmation/' ~ resendConfirmation, 'Resend confirmation?') }}
+{% endif %}
 
-{% endblock %}
+{{ link_to('session/forgot-password', 'Forgot Password?') }}
+
+{{ link_to('session/sign-up', 'Not registered?') }}

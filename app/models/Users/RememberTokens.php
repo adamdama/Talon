@@ -42,16 +42,16 @@ class RememberTokens extends ModelBase
 		);
 	}
 
-	public function beforeValidationOnCreate()
-	{
-		$this->created = new RawValue('now()');
-	}
-
 	public function initialize()
 	{
 		$this->belongsTo('usersId', 'Talon\Models\Users', 'id', array(
 			'alias' => 'user'
 		));
+	}
+
+	public function beforeValidationOnCreate()
+	{
+		$this->created = new RawValue('now()');
 	}
 
 	public function isExpired() {

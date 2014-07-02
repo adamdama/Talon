@@ -1,6 +1,6 @@
 <?php
 namespace Talon\Forms;
-
+/** TODO implement hideen form validation into all forms */
 use \Phalcon\Forms\Form,
 	\Phalcon\Forms\Element\Hidden,
 	\Phalcon\Validation\Validator\Identical;
