@@ -28,7 +28,7 @@ class Auth extends Component
 
 		// Check the password
 		if (!$this->security->checkHash($credentials['password'], $user->password)) {
-			$this->registerFailedLogin($user);
+			$this->registerFailedLogin($user->id);
 			throw new AuthException(AuthException::CREDENTIALS_FAILED);
 		}
 
@@ -78,28 +78,6 @@ class Auth extends Component
 			$messages = $failedLogin->getMessages();
 			throw new AuthException($messages[0]);
 		}
-
-//		$attempts = FailedLogins::count(array(
-//			'ipAddress = ?0 AND created >= ?1',
-//			'bind' => array(
-//				ip2long($this->request->getClientAddress()),
-//				new RawValue('now()')
-//			)
-//		));
-//
-//		switch ($attempts) {
-//			case 1:
-//			case 2:
-//				// no delay
-//				break;
-//			case 3:
-//			case 4:
-//				sleep(2);
-//				break;
-//			default:
-//				sleep(4);
-//				break;
-//		}
 	}
 
 	public function createRememberTokens(Users $user)
@@ -114,11 +92,6 @@ class Auth extends Component
 
 		if ($remember->save() !== false) {
 			$remember->setCookies($this->cookies, $user->id, $token);
-		} else {
-			foreach($remember->getMessages() as $m) {
-				echo $m;
-			}
-			exit;
 		}
 	}
 
@@ -158,8 +131,6 @@ class Auth extends Component
 
 						return true;
 					}
-				} else {
-					echo 1; exit;
 				}
 			}
 		}
@@ -171,12 +142,12 @@ class Auth extends Component
 
 	public function checkUserFlags(Users $user)
 	{
-		if ($user->active !== 1) {
-			throw new AuthException(AuthException::USER_NOT_ACTIVE);
-		}
-
 		if ($user->validated !== 1) {
 			throw new AuthException(AuthException::USER_NOT_VALIDATED);
+		}
+
+		if ($user->active !== 1) {
+			throw new AuthException(AuthException::USER_NOT_ACTIVE);
 		}
 	}
 
@@ -202,6 +173,7 @@ class Auth extends Component
 	{
 		/** @var Users $user */
 		$user = Users::findFirstById($id);
+
 		if ($user === false) {
 			throw new AuthException(AuthException::USER_DOES_NOT_EXIST);
 		}
@@ -219,6 +191,7 @@ class Auth extends Component
 	public function getUser()
 	{
 		$identity = $this->session->get(Auth::AUTH_ID_SESSION_KEY);
+
 		if (isset($identity['id'])) {
 
 			$user = Users::findFirstById($identity['id']);

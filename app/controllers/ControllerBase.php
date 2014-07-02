@@ -1,7 +1,8 @@
 <?php
 namespace Talon\Controllers;
 
-use \Phalcon\Mvc\Controller,
+use \Phalcon\Exception,
+	\Phalcon\Mvc\Controller,
 	\Phalcon\Tag;
 
 /**
@@ -25,6 +26,9 @@ class ControllerBase extends Controller
 	 * @param $uri
 	 */
 	protected function forward($uri){
+		if(!is_string($uri))
+			throw new Exception('forward expects uri format string');
+
 		$uriParts = explode('/', $uri);
 		$this->dispatcher->forward(
 			array(

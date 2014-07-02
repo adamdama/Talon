@@ -15,3 +15,6 @@ $loader->registerNamespaces(array(
 ));
 
 $loader->register();
+
+// Use composer autoloader to load vendor classes
+require_once __DIR__ . '/../../vendor/autoload.php';

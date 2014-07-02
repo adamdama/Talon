@@ -1,4 +1,4 @@
-{# app/views/session/signup.volt #}
+{# app/views/users/changePassword.volt #}
 
 {%  block content %}
     {{  content() }}
@@ -10,18 +10,6 @@
 
 {{ form('method': 'post') }}
 
-    {{ form.label('name') }}
-    {{ form.render('name') }}
-    {{ form.messages('name') }}
-
-    {{ form.label('email') }}
-    {{ form.render('email') }}
-    {{ form.messages('email') }}
-
-    {{ form.label('confirmEmail') }}
-    {{ form.render('confirmEmail') }}
-    {{ form.messages('confirmEmail') }}
-
     {{ form.label('password') }}
     {{ form.render('password') }}
     {{ form.messages('password') }}
@@ -30,11 +18,7 @@
     {{ form.render('confirmPassword') }}
     {{ form.messages('confirmPassword') }}
 
-    {#{{ form.render('terms') }}#}
-    {#{{ form.label('terms') }}#}
-    {#{{ form.messages('terms') }}#}
-
-    {{ form.render('Sign Up') }}
+    {{ form.render('Change Password') }}
 
     {{ form.render('csrf', ['value': security.getToken()]) }}
     {{ form.messages('csrf') }}

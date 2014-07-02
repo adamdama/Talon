@@ -11,6 +11,8 @@ use \Phalcon\Mvc\Model\Validator\Email,
  */
 class Users extends ModelBase
 {
+	const USER_DOES_NOT_EXIST = 'User does not exist';
+
 	/**
      *
      * @var integer
@@ -106,13 +108,6 @@ class Users extends ModelBase
 	}
 
 	/**
-	 * Before first time record creation we need to secure the password
-	 */
-	public function beforeCreate() {
-		$this->password = $this->encryptPassword($this->password);
-	}
-
-	/**
 	 * Before we validate the data we need to generate a modified date
 	 */
 	public function beforeValidation() {
@@ -124,8 +119,8 @@ class Users extends ModelBase
 	 */
 	public function beforeValidationOnCreate() {
 		$this->created = new RawValue('now()');
-		$this->active = 1;
-		$this->validated = 1;
+		$this->active = 0;
+		$this->validated = 0;
 	}
 
 	/**
@@ -158,6 +153,27 @@ class Users extends ModelBase
 
 	    return true;
     }
+
+	public function setPassword($password) {
+		$this->password = $this->encryptPassword($password);
+	}
+
+	public function sendConfirmation() {
+		if ($this->validated === 0) {
+			$emailConfirmation = new EmailConfirmations();
+			$emailConfirmation->usersId = $this->id;
+
+			if(!$emailConfirmation->save()) {
+				foreach($emailConfirmation->getMessages() as $message) {
+					$this->appendMessage($message);
+				}
+
+				return false;
+			}
+		}
+
+		return true;
+	}
 
 	/**
 	 * Encrypt the password (for Merlijn)
