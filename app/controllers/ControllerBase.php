@@ -24,12 +24,22 @@ class ControllerBase extends Controller
 	 * Method for forwarding requests to different controller actions
 	 *
 	 * @param $uri
+	 * @throws \Phalcon\Exception
 	 */
 	protected function forward($uri){
 		if(!is_string($uri))
 			throw new Exception('forward expects uri format string');
 
 		$uriParts = explode('/', $uri);
+
+		if($uriParts[0] === '')
+			$uriParts[] = 'index';
+
+		if(count($uriParts) === 1 || $uriParts[1] == '')
+			$uriParts[1] = 'index';
+
+
+
 		$this->dispatcher->forward(
 			array(
 				'controller' => $uriParts[0],
