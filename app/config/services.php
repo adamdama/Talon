@@ -8,6 +8,7 @@ use \Phalcon\DI\FactoryDefault,
 	\Phalcon\Mvc\View\Engine\Volt as VoltEngine,
 	\Phalcon\Session\Adapter\Files as SessionAdapter,
 	\Phalcon\Mvc\Model\Metadata\Memory as MetaDataAdapter,
+	\Talon\Acl\Acl,
 	\Phalcon\Security,
 	\Phalcon\Flash\Direct,
 	\Talon\Auth\Auth,
@@ -126,6 +127,13 @@ $di->set('auth', function () {
  */
 $di->set('mail', function () {
 	return new Mail();
+});
+
+/**
+ * Custom mail component
+ */
+$di->set('acl', function () {
+	return new Acl();
 });
 
 /**
