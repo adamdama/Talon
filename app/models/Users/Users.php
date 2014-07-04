@@ -35,7 +35,7 @@ class Users extends ModelBase
      *
      * @var string
      */
-    public $password;
+    protected $password;
 
     /**
      *
@@ -66,21 +66,21 @@ class Users extends ModelBase
 	 */
 	public function initialize()
 	{
-		$this->hasMany('id', 'Talon\Models\SuccessLogins', 'usersId', array(
+		$this->hasMany('id', 'Talon\Models\Users\SuccessLogins', 'usersId', array(
 			'alias' => 'successLogins',
 			'foreignKey' => array(
 				'message' => 'User cannot be deleted because he/she has activity in the system'
 			)
 		));
 
-		$this->hasMany('id', 'Talon\Models\PasswordChanges', 'usersId', array(
+		$this->hasMany('id', 'Talon\Models\Users\PasswordChanges', 'usersId', array(
 			'alias' => 'passwordChanges',
 			'foreignKey' => array(
 				'message' => 'User cannot be deleted because he/she has activity in the system'
 			)
 		));
 
-		$this->hasMany('id', 'Talon\Models\ResetPasswords', 'usersId', array(
+		$this->hasMany('id', 'Talon\Models\Users\ResetPasswords', 'usersId', array(
 			'alias' => 'resetPasswords',
 			'foreignKey' => array(
 				'message' => 'User cannot be deleted because he/she has activity in the system'
@@ -158,21 +158,37 @@ class Users extends ModelBase
 		$this->password = $this->encryptPassword($password);
 	}
 
+	/**
+	 *
+	 * @return string
+	 */
+	public function getPassword() {
+		return $this->password;
+	}
+
+
+
 	public function sendConfirmation() {
-		if ($this->validated === 0) {
-			$emailConfirmation = new EmailConfirmations();
-			$emailConfirmation->usersId = $this->id;
+		$emailConfirmation = new EmailConfirmations();
+		$emailConfirmation->usersId = $this->id;
 
-			if(!$emailConfirmation->save()) {
-				foreach($emailConfirmation->getMessages() as $message) {
-					$this->appendMessage($message);
-				}
-
-				return false;
+		if(!$emailConfirmation->save()) {
+			foreach($emailConfirmation->getMessages() as $message) {
+				$this->appendMessage($message);
 			}
+
+			return false;
 		}
 
 		return true;
+	}
+
+	/**
+	 * Send a confirmation e-mail to the user if the account is not validated
+	 */
+	public function afterSave()
+	{
+		//annoying on every edit, move to a checkbox on form and handle in controller
 	}
 
 	/**

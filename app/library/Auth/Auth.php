@@ -27,7 +27,7 @@ class Auth extends Component
 		}
 
 		// Check the password
-		if (!$this->security->checkHash($credentials['password'], $user->password)) {
+		if (!$this->security->checkHash($credentials['password'], $user->getPassword())) {
 			$this->registerFailedLogin($user->id);
 			throw new AuthException(AuthException::CREDENTIALS_FAILED);
 		}
@@ -188,6 +188,12 @@ class Auth extends Component
 		));
 	}
 
+	/**
+	 *
+	 *
+	 * @return \Talon\Models\Users\Users | bool
+	 * @throws AuthException
+	 */
 	public function getUser()
 	{
 		$identity = $this->session->get(Auth::AUTH_ID_SESSION_KEY);

@@ -10,6 +10,8 @@
 
 {{ form('method': 'post') }}
 
+    {{ form.render('id') }}
+
     {{ form.label('name') }}
     {{ form.render('name') }}
     {{ form.messages('name') }}
@@ -18,11 +20,17 @@
     {{ form.render('email') }}
     {{ form.messages('email') }}
 
-    {{ form.label('password') }}
-    {{ form.render('password') }}
-    {{ form.messages('password') }}
+    {{ form.label('validated') }}
+    {{ form.render('validated') }}
+    {{ form.messages('validated') }}
+
+    {{ form.label('active') }}
+    {{ form.render('active') }}
+    {{ form.messages('active') }}
 
     {{ form.render('Save') }}
+
+    {{ link_to('users/delete/'~user.id~'/yes', 'delete') }}
 
     {{ form.render('csrf', ['value': security.getToken()]) }}
     {{ form.messages('csrf') }}

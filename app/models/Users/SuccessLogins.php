@@ -38,7 +38,7 @@ class SuccessLogins extends ModelBase
 	{
 		$this->setSource('success_logins');
 
-		$this->belongsTo('usersId', 'Talon\Models\Users', 'id', array(
+		$this->belongsTo('usersId', 'Talon\Models\Users\Users', 'id', array(
 			'alias' => 'user'
 		));
 	}

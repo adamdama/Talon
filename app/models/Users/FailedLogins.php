@@ -38,7 +38,7 @@ class FailedLogins extends ModelBase
 	{
 		$this->setSource('failed_logins');
 
-		$this->belongsTo('usersId', 'Talon\Models\Users', 'id', array(
+		$this->belongsTo('usersId', 'Talon\Models\Users\Users', 'id', array(
 			'alias' => 'user'
 		));
 	}
