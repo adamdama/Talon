@@ -69,8 +69,7 @@ class EmailConfirmations extends ModelBase
 	    );
 	    /** @var EmailConfirmations $emailConfirmation */
 	    foreach ($emailConfirmations as $emailConfirmation) {
-		    $emailConfirmation->confirmed = 1;
-		    $emailConfirmation->save();
+		    $emailConfirmation->delete();
 	    }
     }
 

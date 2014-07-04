@@ -3,6 +3,7 @@ namespace Talon\Controllers;
 
 use Phalcon\Tag;
 use Talon\Forms\Users\ChangePasswordForm,
+	Talon\Forms\Users\UsersForm,
 	Talon\Models\Users\Users;
 use Talon\Models\Users\PasswordChanges;
 use Talon\Models\Users\ResetPasswords;
@@ -14,6 +15,9 @@ use Talon\Models\Users\ResetPasswords;
  */
 class UsersController extends ControllerBase
 {
+	const USER_DOES_NOT_EXIST = 'User does not exist';
+	const CONFIRMATION_EMAIL_SENT = 'A confirmation email has been sent to the users email address.';
+
 	/**
 	 * Setup the page
 	 */
@@ -28,7 +32,9 @@ class UsersController extends ControllerBase
 	 * Users home page
 	 */
 	public function indexAction() {
-		var_dump($this->auth->getIdentity());
+		$users = Users::find();
+
+		$this->view->setVar('users', $users);
     }
 
 	/**
@@ -36,30 +42,84 @@ class UsersController extends ControllerBase
 	 *
 	 * @return \Phalcon\Http\ResponseInterface
 	 */
-	public function newAction()
-	{
-		// make sure request is post and the token is valid
-		if(!$this->validateRequest(array('method' => 'post', 'token' => 'token'))) {
-			$this->response->redirect('users/new');
-			return;
-		}
+	public function newAction() {
+		$form = new UsersForm(null);
 
-		$user = new Users();
+		if ($this->request->isPost()) {
+			if ($form->isValid($this->request->getPost()) !== false) {
+				$user = new Users();
+				$user->name = $this->request->getPost('name');
+				$user->email = $this->request->getPost('email');
+				$user->setPassword($this->request->getPost('password'));
+				$user->validated = $this->request->getPost('validated');
+				$user->active = $this->request->getPost('active');
 
-		// filter post data for desired values
-		$data = array(
-			'name' => $this->request->getPost('name'),
-			'email' => $this->request->getPost('email'),
-			'password' => $this->request->getPost('password')
-		);
+				if ($user->save() === false) {
+					foreach($user->getMessages() as $message)
+						$this->flashSession->error($message);
+				} else {
+					if($user->validated === 0) {
+						if(!$user->sendConfirmation()) {
+							foreach($user->getMessages() as $message) {
+								$this->flashSession->error($message);
+							}
+						} else {
+							$this->flashSession->success(self::CONFIRMATION_EMAIL_SENT);
+						}
+					}
 
-		if ($user->save($data) === false) {
-			foreach ($user->getMessages() as $message) {
-				$this->flashSession->error((string) $message);
+					$this->flashSession->success('User created.');
+					$this->forward('users/edit');
+					return;
+				}
 			}
-
-			$this->response->redirect('users/new');
 		}
+
+		$this->view->setVar('form', $form);
+	}
+
+	/**
+	 * Edit a user
+	 *
+	 * @param $id
+	 * @return \Phalcon\Http\ResponseInterface
+	 */
+	public function editAction($id) {
+		if(!$id) {
+			return $this->response->redirect('users');
+		}
+
+		/** @var \Talon\Models\Users\Users $user */
+		$user = Users::findFirstById($id);
+
+		if(!$user) {
+			$this->flashSession->error(UsersController::USER_DOES_NOT_EXIST);
+			$this->response->redirect('users/index');
+		}
+
+		$form = new UsersForm($user, array('edit' => true));
+
+		if ($this->request->isPost()) {
+			if ($form->isValid($this->request->getPost()) !== false) {
+				$user->name = $this->request->getPost('name');
+				$user->email = $this->request->getPost('email');
+				$user->setPassword($this->request->getPost('password'));
+				$user->validated = $this->request->getPost('validated');
+				$user->active = $this->request->getPost('active');
+
+				if ($user->save() === false) {
+					foreach($user->getMessages() as $message)
+						$this->flashSession->error($message);
+				} else {
+					$this->flashSession->success('User was updated successfully');
+				}
+			}
+		}
+
+		Tag::resetInput();
+
+		$this->view->setVar('user', $user);
+		$this->view->setVar('form', $form);
 	}
 
 	public function changePasswordAction() {
@@ -115,6 +175,29 @@ class UsersController extends ControllerBase
 		Tag::resetInput();
 
 		$this->view->setVar('form', $form);
+	}
+
+	public function deleteAction($id, $sure =  false) {
+		if($id) {
+			$user = Users::findFirstById($id);
+			if($this->auth->getUser()->id === (int) $id) {
+				$this->flashSession->error('You cannot delete yourself.');
+
+			} elseif($sure === 'yes') {
+				/** @var \Talon\Models\Users\Users $user */
+				$userName = $user->name;
+				$user->delete();
+				$this->flashSession->notice($userName.' has been deleted.');
+
+				return $this->response->redirect('users');
+			} else {
+				$this->flashSession->notice('The user was not deleted.');
+			}
+
+			return $this->response->redirect('users/edit/'.$id);
+		}
+
+		return $this->response->redirect('users');
 	}
 
 }

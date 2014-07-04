@@ -44,7 +44,7 @@ class RememberTokens extends ModelBase
 
 	public function initialize()
 	{
-		$this->belongsTo('usersId', 'Talon\Models\Users', 'id', array(
+		$this->belongsTo('usersId', 'Talon\Models\Users\Users', 'id', array(
 			'alias' => 'user'
 		));
 	}

@@ -14,7 +14,9 @@ class ChangePasswordForm extends FormBase {
 		parent::initialize();
 
 		// Password
-		$password = new Password('password');
+		$password = new Password('password', array(
+			'placeholder' => 'Password'
+		));
 		$password->setLabel('New Password');
 
 		$password->addValidators(array(
@@ -34,7 +36,9 @@ class ChangePasswordForm extends FormBase {
 		$this->add($password);
 
 		// Confirm Password
-		$confirmPassword = new Password('confirmPassword');
+		$confirmPassword = new Password('confirmPassword', array(
+			'placeholder' => 'Confirm Password'
+		));
 		$confirmPassword->setLabel('Confirm New Password');
 
 		$confirmPassword->addValidators(array(
