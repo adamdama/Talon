@@ -7,3 +7,4 @@ app/cache/metaData/*
 app/cache/volt/*
 vendor/*
 !.gitignore
+app/config/private.php
