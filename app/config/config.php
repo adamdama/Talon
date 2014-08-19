@@ -1,4 +1,9 @@
 <?php
+if(!defined('BASE_DIR'))
+	define('BASE_DIR', dirname(dirname(__DIR__)));
+
+if(!defined('APP_DIR'))
+	define('APP_DIR', BASE_DIR . '/app');
 
 include(APP_DIR . '/config/private.php');
 
