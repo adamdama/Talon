@@ -23,7 +23,8 @@ class FormBase extends Form {
 	
  	/**
 	 * Prints message for specific form element
-	 * 
+	 *
+     * @author David Kane <@daveykane>
 	 * @access public
 	 * @param String $name
 	 * @return String
@@ -38,7 +39,8 @@ class FormBase extends Form {
 	
  	/**
 	 * Returns array of messages for specific form element
-	 * 
+	 *
+     * @author David Kane <@daveykane>
 	 * @access public
 	 * @param String $name
 	 * @return Array
