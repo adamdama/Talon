@@ -12,22 +12,22 @@
 
     {{ form.label('email') }}
     {{ form.render('email') }}
-    {{ form.messages('email') }}
+    {{ form.message('email') }}
 
     {{ form.label('password') }}
     {{ form.render('password') }}
-    {{ form.messages('password') }}
+    {{ form.message('password') }}
 
     {{ link_to('session/forgot-password') }}
 
     {{ form.render('remember') }}
     {{ form.label('remember') }}
-    {{ form.messages('remember') }}
+    {{ form.message('remember') }}
 
     {{ form.render('Login') }}
 
     {{ form.render('csrf', ['value': security.getToken()]) }}
-    {{ form.messages('csrf') }}
+    {{ form.message('csrf') }}
 
 {{ end_form() }}
 

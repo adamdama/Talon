@@ -20,17 +20,32 @@ class FormBase extends Form {
 
 		$this->add($csrf);
 	}
-
-	/**
-	 * Prints messages for a specific element
+	
+ 	/**
+	 * Prints message for specific form element
+	 * 
+	 * @access public
+	 * @param String $name
+	 * @return String
 	 */
-	public function messages($name)
-	{
-		if ($this->hasMessagesFor($name)) {
-			foreach ($this->getMessagesFor($name) as $message) {
-				$this->flashSession->error($message);
+	public function message($name) {
+		if($this->hasMessagesFor($name)) {
+			foreach($this->getMessagesFor($name) as $message) {
+				return $message;
 			}
 		}
 	}
-
+	
+ 	/**
+	 * Returns array of messages for specific form element
+	 * 
+	 * @access public
+	 * @param String $name
+	 * @return Array
+	 */
+	public function messages($name) {
+		if($this->hasMessagesFor($name)) {
+			return $this->getMessagesFor($name);
+		}
+	}
 } 
