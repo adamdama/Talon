@@ -35,6 +35,8 @@ class FormBase extends Form {
 				return $message;
 			}
 		}
+
+		return false;
 	}
 	
  	/**
@@ -49,5 +51,7 @@ class FormBase extends Form {
 		if($this->hasMessagesFor($name)) {
 			return $this->getMessagesFor($name);
 		}
+
+		return false;
 	}
 } 
