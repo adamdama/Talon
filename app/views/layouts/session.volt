@@ -1,5 +1,5 @@
 {# app/views/layouts/session.volt #}
 
-<div id="login">
+<div id="session">
     {{  content() }}
 </div>
