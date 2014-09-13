@@ -141,6 +141,10 @@ class ControllerBase extends Controller
 	}
 
 	public function redirect($controller = '', $action = '', array $params = null) {
+		return $this->response->redirect($this->getRoute($controller, $action, $params));
+	}
+
+	public function getRoute($controller = '', $action = '', array $params = null) {
 		if($controller.$action === '') {
 			$url = '';
 		} else {
@@ -160,7 +164,7 @@ class ControllerBase extends Controller
 			}
 		}
 
-		return $this->response->redirect($url);
+		return $url;
 	}
 
 	private function includeJquery() {
