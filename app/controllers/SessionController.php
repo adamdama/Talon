@@ -1,14 +1,14 @@
 <?php
 namespace Talon\Controllers;
 
-use Talon\Forms\Session\SignUpForm,
+use Phalcon\Tag,
+	Talon\Forms\Session\SignUpForm,
 	Talon\Forms\Session\LoginForm,
 	Talon\Forms\Session\ForgotPasswordForm,
 	Talon\Models\Users\Users,
 	Talon\Models\Users\ResetPasswords,
 	Talon\Auth\Auth,
 	Talon\Auth\AuthException;
-use Talon\Models\Users\EmailConfirmations;
 
 class SessionController extends ControllerBase
 {
@@ -58,12 +58,15 @@ class SessionController extends ControllerBase
 	public function loginAction()
 	{
 		$form = new LoginForm();
+		$redirect = false;
 
 		try {
 			if (!$this->request->isPost()) {
-				if ($this->auth->hasRememberMe()) {
+				if($this->auth->getIdentity()) {
+					$redirect = true;
+				} elseif ($this->auth->hasRememberMe()) {
 					if($this->auth->loginWithRememberMe()) {
-						return $this->response->redirect('users');
+						$redirect = true;
 					}
 				}
 			} else {
@@ -78,8 +81,12 @@ class SessionController extends ControllerBase
 						'remember' => $this->request->getPost('remember')
 					));
 
-					return $this->response->redirect('users');
+					$redirect = true;
 				}
+			}
+
+			if($redirect) {
+				return $this->response->redirect('users');
 			}
 		} catch (AuthException $e) {
 			$error = $e->getMessage();
@@ -109,6 +116,7 @@ class SessionController extends ControllerBase
 				$user = Users::findFirstByEmail($this->request->getPost('email'));
 				if (!$user) {
 					$this->flashSession->success('There is no account associated with this email');
+					Tag::resetInput();
 				} else {
 
 					$resetPassword = new ResetPasswords();
@@ -134,7 +142,7 @@ class SessionController extends ControllerBase
 	{
 		$this->auth->unregisterIdentity();
 
-		return $this->response->redirect('index');
+		return $this->response->redirect('/');
 	}
 }
 
