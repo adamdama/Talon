@@ -1,22 +1,21 @@
-{# app/views/session/login.volt #}
+{# app/views/session/forgotPassword.volt #}
 
-{%  block content %}
-    {{  content() }}
-{% endblock %}
+<div class="login">
+    {{ partial('partials/logo') }}
+    <div class="messages">
+        {%  block flash %}
+            {{ flashSession.output() }}
+        {% endblock %}
+    </div>
+    <div class="form">
+        {{ form('method': 'post') }}
 
-{%  block flash %}
-    {{ flashSession.output() }}
-{% endblock %}
+        {{ form.render('email') }}
 
-{{ form('method': 'post') }}
+        {{ form.render('Send') }}
 
-    {{ form.label('email') }}
-    {{ form.render('email') }}
-    {{ form.messages('email') }}
+        {{ form.render('csrf', ['value': security.getToken()]) }}
 
-    {{ form.render('Send') }}
-
-    {{ form.render('csrf', ['value': security.getToken()]) }}
-    {{ form.messages('csrf') }}
-
-{{ end_form() }}
+        {{ end_form() }}
+    </div>
+</div>

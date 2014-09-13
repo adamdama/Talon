@@ -9,6 +9,8 @@
 
 $light-grey: rgba(220, 220, 220, 1);
 $shadow-grey: rgba(100, 100, 100, 0.6);
+$errorRed: darkred;
+$successGreen: green;
 html
 {
 	font-family: 'Yanone Kaffeesatz', sans-serif;
@@ -31,10 +33,40 @@ body {
 		}
 	}
 
-	#main {
+	#login {
+		position: relative;
+		margin: auto;
+		top: 5rem;
+		width: 20rem;
+		font-size: 1.2rem;
+		background: $light-grey;
+		padding: 1.2rem;
 
-		.messages {
-			background: darkred;
+		@include box-sizing(border-box);
+		@include border-radius(2rem 2rem);
+		@include box-shadow(0px 3px 10px 4px $shadow-grey);
+
+		input[type="text"],
+		input[type="password"],
+		input[type="submit"] {
+			width: 100%;
+			margin-top: 0.5rem;
+			padding: 0.6rem;
+			border: none;
+			font-size: 1.4rem;
+
+			@include box-sizing(border-box);
+		}
+
+		.links {
+			margin-top: 0.6rem;
+
+			a {
+				display: block;
+			}
+		}
+		.errorMessage,
+		.successMessage {
 			color: white;
 			margin: 1rem 0;
 			width: 100%;
@@ -43,39 +75,13 @@ body {
 			@include box-sizing(border-box);
 			@include border-radius(1rem);
 			@include box-shadow(0px 3px 3px 0px $shadow-grey);
-		}
 
-		.login {
-			position: relative;
-			margin: auto;
-			top: 15rem;
-			width: 20rem;
-			font-size: 1.2rem;
-			background: $light-grey;
-			padding: 1.2rem;
-
-			@include box-sizing(border-box);
-			@include border-radius(10% 10%);
-			@include box-shadow(0px 3px 10px 4px $shadow-grey);
-
-			input[type="text"],
-			input[type="password"],
-			input[type="submit"] {
-				width: 100%;
-				margin-top: 0.5rem;
-				padding: 0.6rem;
-				border: none;
-				font-size: 1.4rem;
-
-				@include box-sizing(border-box);
+			&.errorMessage {
+				background: $errorRed;
 			}
 
-			.links {
-				margin-top: 0.6rem;
-
-				a {
-					display: block;
-				}
+			&.successMessage {
+				background: $successGreen;
 			}
 		}
 	}
