@@ -1,22 +1,32 @@
+/** Normalize **/
 @import 'normalize';
+
+/** Fonts **/
+$mainFont: 'Yanone Kaffeesatz';
 @import url('http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,300,700');
+
 
 /** Mixins **/
 @import "compass/css3/box-sizing";
 @import "compass/css3/border-radius";
 @import "compass/css3/box-shadow";
 
-
+/** Colours **/
 $light-grey: rgba(220, 220, 220, 1);
 $shadow-grey: rgba(100, 100, 100, 0.6);
 $errorRed: darkred;
 $successGreen: green;
+$white: white;
+
+/** Images **/
+$sessionBackground: 'session/background.png';
+
 html
 {
-	font-family: 'Yanone Kaffeesatz', sans-serif;
+	font-family: $mainFont, sans-serif;
 	font-size: 16px;
 
-	background: image-url('background.png') 30% 50% transparent;
+	background: image-url($sessionBackground) 30% 50% transparent;
 
 	body {
 		width: 100%;
@@ -67,7 +77,7 @@ body {
 		}
 		.errorMessage,
 		.successMessage {
-			color: white;
+			color: $white;
 			margin: 1rem 0;
 			width: 100%;
 			padding: 0.5rem;
