@@ -1,6 +1,6 @@
 {# app/views/session/forgotPassword.volt #}
 
-<div class="login">
+<div class="forgotPassword">
     {{ partial('partials/logo') }}
     <div class="messages">
         {%  block flash %}

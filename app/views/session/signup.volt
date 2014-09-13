@@ -1,42 +1,34 @@
 {# app/views/session/signup.volt #}
 
-{%  block content %}
-    {{  content() }}
-{% endblock %}
+<div class="sinup">
+    {{ partial('partials/logo') }}
+    <div class="messages">
+        {%  block flash %}
+            {{ flashSession.output() }}
+        {% endblock %}
+    </div>
+    <div class="form">
 
-{%  block flash %}
-    {{ flashSession.output() }}
-{% endblock %}
+        {{ form('method': 'post') }}
 
-{{ form('method': 'post') }}
+        {{ form.render('name') }}
 
-    {{ form.label('name') }}
-    {{ form.render('name') }}
-    {{ form.messages('name') }}
+        {{ form.render('email') }}
 
-    {{ form.label('email') }}
-    {{ form.render('email') }}
-    {{ form.messages('email') }}
+        {{ form.render('confirmEmail') }}
 
-    {{ form.label('confirmEmail') }}
-    {{ form.render('confirmEmail') }}
-    {{ form.messages('confirmEmail') }}
+        {{ form.render('password') }}
 
-    {{ form.label('password') }}
-    {{ form.render('password') }}
-    {{ form.messages('password') }}
+        {{ form.render('confirmPassword') }}
 
-    {{ form.label('confirmPassword') }}
-    {{ form.render('confirmPassword') }}
-    {{ form.messages('confirmPassword') }}
+        {#{{ form.render('terms') }}#}
+        {#{{ form.label('terms') }}#}
+        {#{{ form.messages('terms') }}#}
 
-    {#{{ form.render('terms') }}#}
-    {#{{ form.label('terms') }}#}
-    {#{{ form.messages('terms') }}#}
+        {{ form.render('Sign Up') }}
 
-    {{ form.render('Sign Up') }}
+        {{ form.render('csrf', ['value': security.getToken()]) }}
 
-    {{ form.render('csrf', ['value': security.getToken()]) }}
-    {{ form.messages('csrf') }}
-
-{{ end_form() }}
+        {{ end_form() }}
+    </div>
+</div>

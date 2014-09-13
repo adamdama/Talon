@@ -17,7 +17,7 @@ class SignUpForm extends FormBase {
 	public function initialize() {
 		parent::initialize();
 
-		$name = new Text('name');
+		$name = new Text('name', array('placeholder' => 'Name'));
 		$name->setLabel('Name');
 
 		$name->addValidators(array(
@@ -29,7 +29,7 @@ class SignUpForm extends FormBase {
 		$this->add($name);
 
 		// Email
-		$email = new Text('email');
+		$email = new Text('email', array('placeholder' => 'Email'));
 		$email->setLabel('Email');
 
 		$email->addValidators(array(
@@ -48,7 +48,7 @@ class SignUpForm extends FormBase {
 		$this->add($email);
 
 		// Confirm Email
-		$confirmEmail = new Text('confirmEmail');
+		$confirmEmail = new Text('confirmEmail', array('placeholder' => 'Confirm Email'));
 		$confirmEmail->setLabel('Confirm Email');
 
 		$confirmEmail->addValidators(array(
@@ -60,7 +60,7 @@ class SignUpForm extends FormBase {
 		$this->add($confirmEmail);
 
 		// Password
-		$password = new Password('password');
+		$password = new Password('password', array('placeholder' => 'Password'));
 		$password->setLabel('Password');
 
 		$password->addValidators(array(
@@ -80,7 +80,7 @@ class SignUpForm extends FormBase {
 		$this->add($password);
 
 		// Confirm Password
-		$confirmPassword = new Password('confirmPassword');
+		$confirmPassword = new Password('confirmPassword', array('placeholder' => 'Confirm Password'));
 		$confirmPassword->setLabel('Confirm Password');
 
 		$confirmPassword->addValidators(array(
