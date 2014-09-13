@@ -5,7 +5,7 @@ use \Phalcon\Mvc\User\Component;
 
 /**
  * Talon\Utilities\Utilities
- * Manages Authentication/Identity Management in Talon
+ * Various utility methods for use in Talon
  */
 class Utilities extends Component
 {
