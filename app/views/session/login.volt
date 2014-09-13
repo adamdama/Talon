@@ -25,11 +25,11 @@
     </div>
     <div class="links">
         {% if resendConfirmation is defined %}
-            {{ link_to('resend-confirmation/' ~ resendConfirmation, 'Resend confirmation?') }}
+            {{ link_to(url(['for':'users_control-resendConfirmation', 'email': resendConfirmation]), 'Resend confirmation?') }}
         {% endif %}
 
-        {{ link_to('session/forgot-password', 'Forgot Password?') }}
+        {{ link_to(url(['for': 'session-forgotPassword']), 'Forgot Password?', false) }}
 
-        {{ link_to('session/sign-up', 'Not registered?') }}
+        {{ link_to(url(['for': 'session-signup']), 'Not registered?', false) }}
     </div>
 </div>

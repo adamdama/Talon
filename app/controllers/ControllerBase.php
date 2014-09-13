@@ -56,8 +56,6 @@ class ControllerBase extends Controller
 		if(count($uriParts) === 1 || $uriParts[1] == '')
 			$uriParts[1] = 'index';
 
-
-
 		$this->dispatcher->forward(
 			array(
 				'controller' => $uriParts[0],
@@ -116,7 +114,7 @@ class ControllerBase extends Controller
 			if (!is_array($identity)) {
 
 				$this->flashSession->notice('You are not logged in!');
-				return $this->response->redirect('session/login');
+				return $this->redirect('session/login');
 			}
 
 //			// Check if the user have permission to the current option
@@ -142,9 +140,32 @@ class ControllerBase extends Controller
 		}
 	}
 
+	public function redirect($controller = '', $action = '', array $params = null) {
+		if($controller.$action === '') {
+			$url = '';
+		} else {
+			$options = array(
+				'for' => "$controller-$action"
+			);
+
+			if(!empty($params)) {
+				$options = array_merge($options, $params);
+			}
+
+			try {
+				$url = $this->url->get($options, false);
+				$url = str_replace($this->url->getBaseUri(), '', $url);
+			} catch (Exception $e) {
+				$url = "$controller/$action";
+			}
+		}
+
+		return $this->response->redirect($url);
+	}
+
 	private function includeJquery() {
 		$escaper = new Escaper();
-		$html = Tag::javascriptInclude("//code.jquery.com/jquery-1.11.0.min.js");
+		$html = Tag::javascriptInclude("//code.jquery.com/jquery-1.11.0.min.js", false);
 		$html .= "\n<script>window.jQuery || document.write('".(trim($escaper->escapeJs(Tag::javascriptInclude('js/jquery-1.11.1.min.js'))))."');</script>";
 
 		return $html;

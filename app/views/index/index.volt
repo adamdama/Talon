@@ -2,4 +2,4 @@
 
 <h1>Welcome to Talon!</h1>
 
-{{ linkTo("login", "login") }}
+{{ linkTo(url(['for': 'session-login']), 'login', false) }}

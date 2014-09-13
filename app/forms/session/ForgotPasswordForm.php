@@ -13,7 +13,7 @@ class ForgotPasswordForm extends FormBase {
 		parent::initialize();
 
 		// Email
-		$email = new Text('email');
+		$email = new Text('email', array('placeholder' => 'Email'));
 		$email->setLabel('Email');
 
 		$email->addValidators(array(
