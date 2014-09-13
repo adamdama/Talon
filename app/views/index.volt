@@ -3,14 +3,24 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Phalcon PHP Framework</title>
+		{{ get_title() }}
+
+        {{ assets.outputCss() }}
 	</head>
 	<body>
+        <section class="messages">
+            {%  block flash %}
+                {{ flashSession.output() }}
+            {% endblock %}
+        </section>
 
-        {%  block flash %}
-            {{ flashSession.output() }}
-        {% endblock %}
+        <section class="page">
+            {{ content() }}
+        </section>
 
-		{{ content() }}
+        <!-- Add jQuery -->
+        {{ jQuery }}
+
+        {{ assets.outputJs() }}
 	</body>
 </html>

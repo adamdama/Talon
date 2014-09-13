@@ -4,7 +4,8 @@ namespace Talon\Controllers;
 use \Phalcon\Exception,
 	\Phalcon\Mvc\Controller,
 	\Phalcon\Tag,
-	\Phalcon\Dispatcher;
+	\Phalcon\Dispatcher,
+	\Phalcon\Escaper;
 
 /**
  * Class ControllerBase
@@ -18,7 +19,23 @@ class ControllerBase extends Controller
 	 */
 	protected function initialize()
 	{
-		Tag::prependTitle('Talon | ');
+		// Page title
+		$pageTitle = 'Talon | ' . $this->utilities->camelSeparate($this->dispatcher->getControllerName());
+		$action = $this->dispatcher->getActionName();
+
+		if($action !== 'index')
+			$pageTitle .= ' | ' . $this->utilities->camelSeparate($action);
+
+		$this->view->setVar('page_title', $pageTitle);
+		Tag::prependTitle($pageTitle);
+
+		// Assets
+		$this->assets->addCss('css/talon.css');
+		$this->assets->addJs('js/talon.js');
+
+		$this->view->setVar('jQuery', $this->includeJquery());
+
+		$this->view->setTemplateAfter('main');
 	}
 
 	/**
@@ -123,5 +140,13 @@ class ControllerBase extends Controller
 //				return false;
 //			}
 		}
+	}
+
+	private function includeJquery() {
+		$escaper = new Escaper();
+		$html = Tag::javascriptInclude("//code.jquery.com/jquery-1.11.0.min.js");
+		$html .= "\n<script>window.jQuery || document.write('".(trim($escaper->escapeJs(Tag::javascriptInclude('js/jquery-1.11.1.min.js'))))."');</script>";
+
+		return $html;
 	}
 }

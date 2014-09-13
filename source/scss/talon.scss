@@ -1,0 +1,82 @@
+@import 'normalize';
+@import url('http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,300,700');
+
+/** Mixins **/
+@import "compass/css3/box-sizing";
+@import "compass/css3/border-radius";
+@import "compass/css3/box-shadow";
+
+
+$light-grey: rgba(220, 220, 220, 1);
+$shadow-grey: rgba(100, 100, 100, 0.6);
+html
+{
+	font-family: 'Yanone Kaffeesatz', sans-serif;
+	font-size: 16px;
+
+	background: image-url('background.png') 30% 50% transparent;
+
+	body {
+		width: 100%;
+		height: 100%;
+	}
+}
+
+body {
+
+	.logo {
+		> img {
+			margin:auto;
+			display: block;
+		}
+	}
+
+	#main {
+
+		.messages {
+			background: darkred;
+			color: white;
+			margin: 1rem 0;
+			width: 100%;
+			padding: 0.5rem;
+
+			@include box-sizing(border-box);
+			@include border-radius(1rem);
+			@include box-shadow(0px 3px 3px 0px $shadow-grey);
+		}
+
+		.login {
+			position: relative;
+			margin: auto;
+			top: 15rem;
+			width: 20rem;
+			font-size: 1.2rem;
+			background: $light-grey;
+			padding: 1.2rem;
+
+			@include box-sizing(border-box);
+			@include border-radius(10% 10%);
+			@include box-shadow(0px 3px 10px 4px $shadow-grey);
+
+			input[type="text"],
+			input[type="password"],
+			input[type="submit"] {
+				width: 100%;
+				margin-top: 0.5rem;
+				padding: 0.6rem;
+				border: none;
+				font-size: 1.4rem;
+
+				@include box-sizing(border-box);
+			}
+
+			.links {
+				margin-top: 0.6rem;
+
+				a {
+					display: block;
+				}
+			}
+		}
+	}
+}

@@ -1,40 +1,35 @@
 {# app/views/session/login.volt #}
 
-{%  block content %}
-    {{  content() }}
-{% endblock %}
+<div class="login">
+    {{ partial('partials/logo') }}
+    <div class="messages">
+        {%  block flash %}
+            {{ flashSession.output() }}
+        {% endblock %}
+    </div>
+    <div class="form">
+        {{ form('method': 'post') }}
 
-{%  block flash %}
-    {{ flashSession.output() }}
-{% endblock %}
+        {{ form.render('email') }}
 
-{{ form('method': 'post') }}
+        {{ form.render('password') }}
 
-    {{ form.label('email') }}
-    {{ form.render('email') }}
-    {{ form.message('email') }}
+        {{ form.render('Login') }}
 
-    {{ form.label('password') }}
-    {{ form.render('password') }}
-    {{ form.message('password') }}
+        {{ form.render('remember') }}
+        {{ form.label('remember') }}
 
-    {{ link_to('session/forgot-password') }}
+        {{ form.render('csrf', ['value': security.getToken()]) }}
 
-    {{ form.render('remember') }}
-    {{ form.label('remember') }}
-    {{ form.message('remember') }}
+        {{ end_form() }}
+    </div>
+    <div class="links">
+        {% if resendConfirmation is defined %}
+            {{ link_to('resend-confirmation/' ~ resendConfirmation, 'Resend confirmation?') }}
+        {% endif %}
 
-    {{ form.render('Login') }}
+        {{ link_to('session/forgot-password', 'Forgot Password?') }}
 
-    {{ form.render('csrf', ['value': security.getToken()]) }}
-    {{ form.message('csrf') }}
-
-{{ end_form() }}
-
-{% if resendConfirmation is defined %}
-    {{ link_to('resend-confirmation/' ~ resendConfirmation, 'Resend confirmation?') }}
-{% endif %}
-
-{{ link_to('session/forgot-password', 'Forgot Password?') }}
-
-{{ link_to('session/sign-up', 'Not registered?') }}
+        {{ link_to('session/sign-up', 'Not registered?') }}
+    </div>
+</div>
