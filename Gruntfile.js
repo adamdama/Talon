@@ -36,7 +36,8 @@ module.exports = function (grunt) {
 			},
 			site: {
 				src: [
-					'<%= js_src_path %>/*.js'
+					'<%= js_src_path %>/plugins/*.js',
+					'<%= js_src_path %>/talon/*.js'
 				],
 				dest: '<%= js_build_path %>/talon.js'
 			}
@@ -74,7 +75,7 @@ module.exports = function (grunt) {
 		},
 		jshint: {
 			// define the files to lint
-			files: ['<%= js_src_path %>/talon','!<%= js_src_path %>/vendor'],
+			files: ['<%= js_src_path %>/talon'],
 			// configure JSHint (documented at http://www.jshint.com/docs/)
 			options: {
 				// more options here if you want to override JSHint defaults
@@ -91,7 +92,7 @@ module.exports = function (grunt) {
 				tasks: ['svg-sprites', 'replace', 'compass']
 			},
 			js: {
-				files: ['<%= src_path %>/**/*.js'],
+				files: ['<%= js_src_path %>/**/*.js'],
 				tasks: ['jshint', 'concat', 'uglify', 'copy']
 			},
 			options: {
