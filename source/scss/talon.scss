@@ -134,7 +134,7 @@ body {
 		height: 100%;
 
 		* {
-			@include transition(1s max-width max-height);
+			@include transition(max-width 1s ease-out, max-height 1s ease-out);
 		}
 
 		> nav,
