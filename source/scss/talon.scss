@@ -1,5 +1,6 @@
-/** Normalize **/
+/** Imports **/
 @import 'normalize';
+@import 'navigation-sprite';
 
 /** Fonts **/
 $mainFont: 'Yanone Kaffeesatz';
@@ -10,13 +11,24 @@ $mainFont: 'Yanone Kaffeesatz';
 @import "compass/css3/box-sizing";
 @import "compass/css3/border-radius";
 @import "compass/css3/box-shadow";
+@import "compass/css3/transition";
+@import "compass/css3/flexbox";
+@import "compass/css3/inline-block";
+@import "compass";
 
 /** Colours **/
-$light-grey: rgba(220, 220, 220, 1);
-$shadow-grey: rgba(100, 100, 100, 0.6);
+$lightGrey: rgba(220, 220, 220, 1);
+$shadowGrey: rgba(100, 100, 100, 0.6);
+$middleGrey: rgba(100, 100, 100, 1);
+$darkGrey: rgba(34, 34, 34, 1);
 $errorRed: darkred;
 $successGreen: green;
 $white: white;
+
+
+
+/** Menu variables **/
+$menuWidth: 12rem;
 
 /** Images **/
 $sessionBackground: 'session/background.png';
@@ -25,20 +37,35 @@ html
 {
 	font-family: $mainFont, sans-serif;
 	font-size: 16px;
-
-	body {
-		width: 100%;
-		height: 100%;
-	}
+	width: 100%;
+	height: 100%;
 }
 
 body {
+	width: 100%;
+	height: 100%;
+	display: table;
 
 	.logo {
+		width: 7.5rem;
+
 		> img {
 			margin:auto;
 			display: block;
 		}
+	}
+
+	> section {
+		@include transition(2s height);
+	}
+
+	> section.page {
+		height: 100%;
+		display: table-row;
+	}
+
+	> section.messages {
+		height: 0;
 	}
 
 	#session-background {
@@ -55,12 +82,12 @@ body {
 		top: 5rem;
 		width: 20rem;
 		font-size: 1.2rem;
-		background: $light-grey;
+		background: $lightGrey;
 		padding: 1.2rem;
 
 		@include box-sizing(border-box);
 		@include border-radius(2rem 2rem);
-		@include box-shadow(0px 3px 10px 4px $shadow-grey);
+		@include box-shadow(0px 3px 10px 4px $shadowGrey);
 
 		input[type="text"],
 		input[type="password"],
@@ -90,7 +117,7 @@ body {
 
 			@include box-sizing(border-box);
 			@include border-radius(1rem);
-			@include box-shadow(0px 3px 3px 0px $shadow-grey);
+			@include box-shadow(0px 3px 3px 0px $shadowGrey);
 
 			&.errorMessage {
 				background: $errorRed;
@@ -99,6 +126,98 @@ body {
 			&.successMessage {
 				background: $successGreen;
 			}
+		}
+	}
+
+	#main {
+		width: 100%;
+		height: 100%;
+
+		* {
+			@include transition(1s max-width max-height);
+		}
+
+		> nav,
+		> section {
+			overflow: hidden;
+		}
+
+		nav.menu {
+			background: $darkGrey;
+			position: relative;
+			height: 100%;
+			float: left;
+
+			.layer{
+				position: absolute;
+				top: 0;
+				bottom: 0;
+				width: $menuWidth;
+
+				&.one {
+					background: $middleGrey;
+					z-index: 2;
+					left: $menuWidth;
+				}
+
+				&.two {
+					background: $lightGrey;
+					z-index: 1;
+					left: $menuWidth * 2;
+				}
+			}
+
+			ul {
+				margin: 0;
+				padding: 0;
+
+				> li {
+					list-style: none;
+					min-width: $menuWidth;
+					border-top: 1px solid $white;
+					white-space: nowrap;
+
+					@include display-flex;
+
+					> a {
+						display: block;
+						height: 100%;
+						min-width: $menuWidth;
+						color: $white;
+						text-decoration: none;
+						font-size: 1.5rem;
+						line-height: 1.6rem;
+
+						> .icon {
+							float: left;
+							margin: 0.3rem;
+						}
+
+						> .menu-text {
+							padding: 0.7rem 0;
+						}
+					}
+
+					> ul {
+						max-width: 0;
+						max-height: 0;
+						z-index: 100;
+						margin-top: -1px;
+					}
+
+					&:hover {
+						> ul {
+							max-width: $menuWidth * 2;
+							max-height: 100rem;
+						}
+					}
+				}
+			}
+		}
+
+		section.content {
+			//width: 100%;
+			padding: 5rem;
 		}
 	}
 }

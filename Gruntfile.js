@@ -15,7 +15,7 @@ module.exports = function (grunt) {
 		js_plugin_path: '<%= src_path %>/js/plugins',
 		css_build_path: '<%= public_path %>/css',
 		scss_src_path: '<%= src_path %>/scss',
-		image_path: '<%= public_path %>/images',
+		image_path: '<%= public_path %>/img',
 
 		// Grunt Tasks
 		compass: {
@@ -74,7 +74,7 @@ module.exports = function (grunt) {
 		},
 		jshint: {
 			// define the files to lint
-			files: ['<%= js_src_path %>'],
+			files: ['<%= js_src_path %>/talon','!<%= js_src_path %>/vendor'],
 			// configure JSHint (documented at http://www.jshint.com/docs/)
 			options: {
 				// more options here if you want to override JSHint defaults
@@ -87,15 +87,56 @@ module.exports = function (grunt) {
 		},
 		watch: {
 			sass: {
-				files: ['<%= scss_src_path %>/**'],
-				tasks: ['compass']
+				files: ['<%= scss_src_path %>/**', '<%= src_path %>/img/icons/**'],
+				tasks: ['svg-sprites', 'replace', 'compass']
 			},
 			js: {
 				files: ['<%= src_path %>/**/*.js'],
-				tasks: ['jshint', 'concat', 'uglify']
+				tasks: ['jshint', 'concat', 'uglify', 'copy']
 			},
 			options: {
 				livereload: true
+			}
+		},
+		'svg-sprites': {
+			navigation: {
+				options: {
+					spriteElementPath: '<%= src_path %>/img/icons/navigation',
+					spritePath: '<%= image_path %>/sprites/navigation.svg',
+					cssPath: '<%= scss_src_path %>/_navigation-sprite.scss',
+					prefix: 'nav-icon',
+					layout: 'packed',
+					cssUnit: "rem",
+					sizes: {
+						large: 24,
+						small: 2
+					},
+					refSize: 'large'
+				}
+			}
+		},
+		copy: {
+			vendor: {
+				files: [
+					// includes files within path
+					{
+						expand: true,
+						flatten: true,
+						src: ['<%= js_src_path %>/vendor/**'],
+						dest: '<%= js_build_path %>',
+						filter: 'isFile'
+					}
+				]
+			}
+		},
+		replace: {
+			main: {
+				src: ['<%= scss_src_path %>/_*-sprite.scss'],
+				overwrite: true,                 // overwrite matched source files
+				replacements: [{
+					from: /\.\.\/public\//g,
+					to: ''
+				}]
 			}
 		}
 	});
@@ -107,9 +148,22 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-contrib-compass');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-watch');
+	grunt.loadNpmTasks('grunt-dr-svg-sprites');
+	grunt.loadNpmTasks('grunt-text-replace');
+
+	/**
+	 npm install grunt
+	 npm install grunt-contrib-copy --save-dev
+	 npm install grunt-contrib-concat --save-dev
+	 npm install grunt-contrib-uglify --save-dev
+	 npm install grunt-contrib-compass --save-dev
+	 npm install grunt-contrib-watch --save-dev
+	 npm install grunt-dr-svg-sprites --save-dev
+	 npm install grunt-text-replace --save-dev
+	 */
 
 	// Default task
 	grunt.registerTask('default', 'watch');
-	grunt.registerTask('compilenohint', ['compass', 'concat', 'uglify']);
-	grunt.registerTask('compile', ['compass', 'jshint', 'concat', 'uglify']);
+	grunt.registerTask('compilenohint', ['svg-sprites', 'replace', 'compass', 'concat', 'uglify', 'copy']);
+	grunt.registerTask('compile', ['svg-sprites', 'replace', 'compass', 'jshint', 'concat', 'uglify', 'copy']);
 };

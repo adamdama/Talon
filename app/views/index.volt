@@ -6,6 +6,8 @@
 		{{ get_title() }}
 
         {{ assets.outputCss() }}
+        <!-- Add Modernizr -->
+        {{ modernizr }}
 	</head>
 	<body>
         <section class="messages">

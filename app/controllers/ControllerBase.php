@@ -34,6 +34,7 @@ class ControllerBase extends Controller
 		$this->assets->addJs('js/talon.js');
 
 		$this->view->setVar('jQuery', $this->includeJquery());
+		$this->view->setVar('modernizr', $this->includeModernizr());
 
 		$this->view->setTemplateAfter('main');
 	}
@@ -169,9 +170,13 @@ class ControllerBase extends Controller
 
 	private function includeJquery() {
 		$escaper = new Escaper();
-		$html = Tag::javascriptInclude("//code.jquery.com/jquery-1.11.0.min.js", false);
+		$html = Tag::javascriptInclude("//code.jquery.com/jquery-1.11.1.min.js", false);
 		$html .= "\n<script>window.jQuery || document.write('".(trim($escaper->escapeJs(Tag::javascriptInclude('js/jquery-1.11.1.min.js'))))."');</script>";
 
 		return $html;
+	}
+
+	private function includeModernizr() {
+		return Tag::javascriptInclude('js/modernizr-2.8.3.js');
 	}
 }
