@@ -134,7 +134,7 @@ class Users extends ModelBase
             new Email(
                 array(
                     'field'    => 'email',
-	                'message'  => 'email must be valid email format'
+	                'message'  => 'Invalid email address'
                 )
             )
         );
@@ -143,7 +143,7 @@ class Users extends ModelBase
 		    new Uniqueness(
 			    array(
 				    'field'    => 'email',
-				    'message'  => 'email already registered'
+				    'message'  => 'Email address already registered'
 			    )
 		    )
 	    );

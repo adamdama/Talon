@@ -62,7 +62,7 @@ class UsersControlController extends ControllerBase
 
 		$this->flashSession->success('The email was successfully confirmed. Please login.');
 
-		return $this->response->redirect('session/login');
+		return $this->redirect('session', 'login');
 	}
 
 	public function resetPasswordAction()
@@ -74,7 +74,7 @@ class UsersControlController extends ControllerBase
 		// if the record cannot be found by code then redirect to home
 		// probably a naughty person trying to hack an account
 		if (!$resetPassword) {
-			$this->response->redirect('/');
+			$this->redirect();
 			return;
 		}
 
@@ -83,7 +83,7 @@ class UsersControlController extends ControllerBase
 			// if the record is not still active then redirect to login page
 			// the user probably got here by mistake or from an old link
 			if ($resetPassword->reset !== 0) {
-				$this->response->redirect('session/login');
+				$this->redirect('session', 'login');
 				return;
 			}
 
@@ -97,7 +97,7 @@ class UsersControlController extends ControllerBase
 					$this->flashSession->error($message);
 				}
 
-				$this->response->redirect('/');
+				$this->redirect();
 				return;
 			}
 		}
@@ -109,7 +109,7 @@ class UsersControlController extends ControllerBase
 			$this->auth->authUserById($resetPassword->usersId);
 		} catch(AuthException $e) {
 			$this->flashSession->error($e->getMessage());
-			$this->response->redirect('session/login');
+			$this->redirect('session', 'login');
 		}
 
 		$this->forward('users/changePassword');
@@ -132,6 +132,6 @@ class UsersControlController extends ControllerBase
 			$this->flashSession->error('The email was not sent.');
 		}
 
-		return $this->response->redirect('session/login');
+		return $this->redirect('session', 'login');
 	}
 }

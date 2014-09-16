@@ -4,7 +4,8 @@ namespace Talon\Controllers;
 use \Phalcon\Exception,
 	\Phalcon\Mvc\Controller,
 	\Phalcon\Tag,
-	\Phalcon\Dispatcher;
+	\Phalcon\Dispatcher,
+	\Phalcon\Escaper;
 
 /**
  * Class ControllerBase
@@ -18,7 +19,24 @@ class ControllerBase extends Controller
 	 */
 	protected function initialize()
 	{
-		Tag::prependTitle('Talon | ');
+		// Page title
+		$pageTitle = 'Talon | ' . $this->utilities->camelSeparate($this->dispatcher->getControllerName());
+		$action = $this->dispatcher->getActionName();
+
+		if($action !== 'index')
+			$pageTitle .= ' | ' . $this->utilities->camelSeparate($action);
+
+		$this->view->setVar('page_title', $pageTitle);
+		Tag::prependTitle($pageTitle);
+
+		// Assets
+		$this->assets->addCss('css/talon.css');
+		$this->assets->addJs('js/talon.js');
+
+		$this->view->setVar('jQuery', $this->includeJquery());
+		$this->view->setVar('modernizr', $this->includeModernizr());
+
+		$this->view->setTemplateAfter('main');
 	}
 
 	/**
@@ -38,8 +56,6 @@ class ControllerBase extends Controller
 
 		if(count($uriParts) === 1 || $uriParts[1] == '')
 			$uriParts[1] = 'index';
-
-
 
 		$this->dispatcher->forward(
 			array(
@@ -99,7 +115,7 @@ class ControllerBase extends Controller
 			if (!is_array($identity)) {
 
 				$this->flashSession->notice('You are not logged in!');
-				return $this->response->redirect('session/login');
+				return $this->redirect('session/login');
 			}
 
 //			// Check if the user have permission to the current option
@@ -123,5 +139,44 @@ class ControllerBase extends Controller
 //				return false;
 //			}
 		}
+	}
+
+	public function redirect($controller = '', $action = '', array $params = null) {
+		return $this->response->redirect($this->getRoute($controller, $action, $params));
+	}
+
+	public function getRoute($controller = '', $action = '', array $params = null) {
+		if($controller.$action === '') {
+			$url = '';
+		} else {
+			$options = array(
+				'for' => "$controller-$action"
+			);
+
+			if(!empty($params)) {
+				$options = array_merge($options, $params);
+			}
+
+			try {
+				$url = $this->url->get($options, false);
+				$url = str_replace($this->url->getBaseUri(), '', $url);
+			} catch (Exception $e) {
+				$url = "$controller/$action";
+			}
+		}
+
+		return $url;
+	}
+
+	private function includeJquery() {
+		$escaper = new Escaper();
+		$html = Tag::javascriptInclude("//code.jquery.com/jquery-1.11.1.min.js", false);
+		$html .= "\n<script>window.jQuery || document.write('".(trim($escaper->escapeJs(Tag::javascriptInclude('js/jquery-1.11.1.min.js'))))."');</script>";
+
+		return $html;
+	}
+
+	private function includeModernizr() {
+		return Tag::javascriptInclude('js/modernizr-2.8.3.js');
 	}
 }

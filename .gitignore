@@ -7,3 +7,7 @@ app/cache/metaData/*
 app/cache/volt/*
 vendor/*
 !.gitignore
+app/config/private.php
+node_modules
+source/scss/compass
+source/media

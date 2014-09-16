@@ -23,7 +23,8 @@ class FormBase extends Form {
 	
  	/**
 	 * Prints message for specific form element
-	 * 
+	 *
+     * @author David Kane <@daveykane>
 	 * @access public
 	 * @param String $name
 	 * @return String
@@ -34,11 +35,14 @@ class FormBase extends Form {
 				return $message;
 			}
 		}
+
+		return false;
 	}
 	
  	/**
 	 * Returns array of messages for specific form element
-	 * 
+	 *
+     * @author David Kane <@daveykane>
 	 * @access public
 	 * @param String $name
 	 * @return Array
@@ -47,5 +51,7 @@ class FormBase extends Form {
 		if($this->hasMessagesFor($name)) {
 			return $this->getMessagesFor($name);
 		}
+
+		return false;
 	}
 } 

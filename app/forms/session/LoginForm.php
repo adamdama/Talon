@@ -15,7 +15,7 @@ class LoginForm extends FormBase {
 		parent::initialize();
 
 		// Email
-		$email = new Text('email');
+		$email = new Text('email', array('placeholder' => 'Email'));
 		$email->setLabel('Email');
 
 		$email->addValidators(array(
@@ -30,7 +30,7 @@ class LoginForm extends FormBase {
 		$this->add($email);
 
 		// Password
-		$password = new Password('password');
+		$password = new Password('password', array('placeholder' => 'Password'));
 		$password->setLabel('Password');
 
 		$password->addValidators(array(

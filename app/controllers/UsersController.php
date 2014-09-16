@@ -23,8 +23,6 @@ class UsersController extends ControllerBase
 	 */
 	public function initialize()
 	{
-		//$this->view->setTemplateAfter('main');
-		//Tag::setTitle('Sign Up/Sign In');
 		parent::initialize();
 	}
 
@@ -86,7 +84,7 @@ class UsersController extends ControllerBase
 	 */
 	public function editAction($id) {
 		if(!$id) {
-			return $this->response->redirect('users');
+			return $this->redirect('users');
 		}
 
 		/** @var \Talon\Models\Users\Users $user */
@@ -94,7 +92,7 @@ class UsersController extends ControllerBase
 
 		if(!$user) {
 			$this->flashSession->error(UsersController::USER_DOES_NOT_EXIST);
-			$this->response->redirect('users/index');
+			$this->redirect('users');
 		}
 
 		$form = new UsersForm($user, array('edit' => true));
@@ -131,7 +129,7 @@ class UsersController extends ControllerBase
 
 		if(!$user) {
 			$this->flashSession->error(Users::USER_DOES_NOT_EXIST);
-			$this->response->redirect('session/login');
+			$this->redirect('session', 'login');
 		}
 
 		$form = new ChangePasswordForm();
@@ -166,7 +164,7 @@ class UsersController extends ControllerBase
 							$this->flashSession->error($message);
 					} else {
 						$this->flashSession->success('Password changed successfully.');
-						return $this->response->redirect('session/login');
+						return $this->redirect('session', 'login');
 					}
 				}
 			}
@@ -189,15 +187,15 @@ class UsersController extends ControllerBase
 				$user->delete();
 				$this->flashSession->notice($userName.' has been deleted.');
 
-				return $this->response->redirect('users');
+				return $this->redirect('users');
 			} else {
 				$this->flashSession->notice('The user was not deleted.');
 			}
 
-			return $this->response->redirect('users/edit/'.$id);
+			return $this->redirect('users', 'edit/', array($id));
 		}
 
-		return $this->response->redirect('users');
+		return $this->redirect('users');
 	}
 
 }

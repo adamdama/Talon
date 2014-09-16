@@ -1,12 +1,19 @@
 <?php
+if(!defined('BASE_DIR'))
+	define('BASE_DIR', dirname(dirname(__DIR__)));
+
+if(!defined('APP_DIR'))
+	define('APP_DIR', BASE_DIR . '/app');
+
+include(APP_DIR . '/config/private.php');
 
 return new \Phalcon\Config(array(
     'database' => array(
-        'adapter'     => 'Mysql',
-        'host'        => 'localhost',
-        'username'    => 'talon_user',
-        'password'    => 'password',
-        'dbname'      => 'talon',
+        'adapter'     => $private['database']['adapter'],
+        'host'        => $private['database']['host'],
+        'username'    => $private['database']['username'],
+        'password'    => $private['database']['password'],
+        'dbname'      => $private['database']['dbname'],
     ),
     'application' => array(
         'controllersDir' => APP_DIR . '/controllers/',
@@ -22,11 +29,11 @@ return new \Phalcon\Config(array(
     ),
 	'mail' => array(
 		'smtp' => array(
-			'server' => 'localhost',
-			'port' => 25,
-			'security' => null,
-			'username' => '',
-			'password' => ''
+			'server' => $private['mail']['smtp']['server'],
+			'port' => $private['mail']['smtp']['port'],
+			'security' => $private['mail']['smtp']['security'],
+			'username' => $private['mail']['smtp']['username'],
+			'password' => $private['mail']['smtp']['password']
 		),
 		'senders' => array(
 			'default' => array('noreply@web.dev' => 'Talon')

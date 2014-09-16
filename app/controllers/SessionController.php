@@ -1,20 +1,25 @@
 <?php
 namespace Talon\Controllers;
 
-use Talon\Forms\Session\SignUpForm,
+use \Phalcon\Tag,
+	Talon\Forms\Session\SignUpForm,
 	Talon\Forms\Session\LoginForm,
 	Talon\Forms\Session\ForgotPasswordForm,
 	Talon\Models\Users\Users,
 	Talon\Models\Users\ResetPasswords,
-	Talon\Auth\Auth,
 	Talon\Auth\AuthException;
-use Talon\Models\Users\EmailConfirmations;
 
 class SessionController extends ControllerBase
 {
 	/**
-	 * @var Auth $auth
+	 * Setup the page
 	 */
+	public function initialize()
+	{
+		parent::initialize();
+
+		$this->view->cleanTemplateAfter();
+	}
 
 	public function indexAction()
     {
@@ -44,7 +49,7 @@ class SessionController extends ControllerBase
 						$this->flashSession->success('A confirmation email has been sent to your email address. You must confirm your email address before account access is granted.');
 					}
 					$this->flashSession->success('Thanks for sign-up.');
-					return $this->response->redirect('session/login');
+					return $this->redirect('session', 'login');
 				}
 			}
 		}
@@ -58,12 +63,15 @@ class SessionController extends ControllerBase
 	public function loginAction()
 	{
 		$form = new LoginForm();
+		$redirect = false;
 
 		try {
 			if (!$this->request->isPost()) {
-				if ($this->auth->hasRememberMe()) {
+				if($this->auth->getIdentity()) {
+					$redirect = true;
+				} elseif ($this->auth->hasRememberMe()) {
 					if($this->auth->loginWithRememberMe()) {
-						return $this->response->redirect('users');
+						$redirect = true;
 					}
 				}
 			} else {
@@ -78,8 +86,12 @@ class SessionController extends ControllerBase
 						'remember' => $this->request->getPost('remember')
 					));
 
-					return $this->response->redirect('users');
+					$redirect = true;
 				}
+			}
+
+			if($redirect) {
+				return $this->redirect('users');
 			}
 		} catch (AuthException $e) {
 			$error = $e->getMessage();
@@ -108,13 +120,13 @@ class SessionController extends ControllerBase
 			} else {
 				$user = Users::findFirstByEmail($this->request->getPost('email'));
 				if (!$user) {
-					$this->flashSession->success('There is no account associated with this email');
+					$this->flashSession->error('There is no account associated with this email');
 				} else {
-
 					$resetPassword = new ResetPasswords();
 					$resetPassword->usersId = $user->id;
 					if ($resetPassword->save()) {
 						$this->flashSession->success('Success! You have been sent an email with instructions on how to reset your password.');
+						return $this->redirect('session', 'login');
 					} else {
 						foreach ($resetPassword->getMessages() as $message) {
 							$this->flashSession->error($message);
@@ -134,7 +146,7 @@ class SessionController extends ControllerBase
 	{
 		$this->auth->unregisterIdentity();
 
-		return $this->response->redirect('index');
+		return $this->redirect();
 	}
 }
 
