@@ -19,26 +19,6 @@
                             <div class="menu-text">New</div>
                         </a>
                     </li>
-                    <li class="test">
-                        <a href="{{ url('users/new') }}" title="New User">
-                            <div class="icon nav-icon-plus-icon-small"></div>
-                            <div class="menu-text">test</div>
-                        </a>
-                        <ul>
-                            <li class="new">
-                                <a href="{{ url('users/new') }}" title="New User">
-                                    <div class="icon nav-icon-plus-icon-small"></div>
-                                    <div class="menu-text">New</div>
-                                </a>
-                            </li>
-                            <li class="test">
-                                <a href="{{ url('users/new') }}" title="New User">
-                                    <div class="icon nav-icon-plus-icon-small"></div>
-                                    <div class="menu-text">test</div>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
                 </ul>
             </li>
             <li class="logout">
