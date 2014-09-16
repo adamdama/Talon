@@ -148,21 +148,28 @@ body {
 			height: 100%;
 			float: left;
 
+			> .logo {
+				width: $menuWidth;
+				padding: 1rem 0;
+			}
+
 			.layer{
 				position: absolute;
 				top: 0;
 				bottom: 0;
 				width: $menuWidth;
 
+				@include box-shadow(15px 0px 10px 20px black);
+
 				&.one {
 					background: $middleGrey;
-					z-index: 2;
+					z-index: 1;
 					left: $menuWidth;
 				}
 
 				&.two {
 					background: $lightGrey;
-					z-index: 1;
+					z-index: 2;
 					left: $menuWidth * 2;
 				}
 			}
@@ -194,7 +201,7 @@ body {
 						}
 
 						> .menu-text {
-							padding: 0.7rem 0;
+							padding: 1rem 0;
 						}
 					}
 
@@ -217,7 +224,13 @@ body {
 
 		section.content {
 			//width: 100%;
-			padding: 5rem;
+			> * {
+				padding-left: 4rem;
+			}
+
+			> header {
+				font-size: 3rem;
+			}
 		}
 	}
 }
