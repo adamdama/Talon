@@ -32,6 +32,8 @@
         <div class="layer two"></div>
     </nav>
     <section class="content">
-        {{  content() }}
+        <div>
+            {{  content() }}
+        </div>
     </section>
 </div>

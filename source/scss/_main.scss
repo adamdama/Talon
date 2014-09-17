@@ -1,0 +1,156 @@
+/** General styles, Main layout and Navigation **/
+
+a {
+	text-decoration: none;
+}
+
+html
+{
+	font-family: $mainFont, sans-serif;
+	font-size: 16px;
+	width: 100%;
+	height: 100%;
+}
+
+body {
+	width: 100%;
+	height: 100%;
+	display: table;
+
+	.logo {
+		width: 7.5rem;
+
+		> img {
+			margin:auto;
+			display: block;
+		}
+	}
+
+	> section {
+		@include transition(2s height);
+	}
+
+	> section.page {
+		height: 100%;
+		display: table-row;
+	}
+
+	> section.messages {
+		height: 0;
+	}
+}
+
+body {
+
+	#main {
+		width: 100%;
+		height: 100%;
+
+		* {
+			@include transition(max-width 1s ease-out, max-height 1s ease-out);
+		}
+
+		> nav,
+		> section {
+			overflow: hidden;
+			height: 100%;
+		}
+
+		nav.menu {
+			background: $darkGrey;
+			position: relative;
+			height: 100%;
+			float: left;
+			text-transform: uppercase;
+
+			> .logo {
+				width: $menuWidth;
+				padding: 1rem 0;
+			}
+
+			.layer{
+				position: absolute;
+				top: 0;
+				bottom: 0;
+				width: $menuWidth;
+
+				@include box-shadow(15px 0px 10px 20px $black);
+
+				&.one {
+					background: $yellow;
+					z-index: 1;
+					left: $menuWidth;
+				}
+
+				&.two {
+					background: $yellow;
+					z-index: 2;
+					left: $menuWidth * 2;
+				}
+			}
+
+			ul {
+				margin: 0;
+				padding: 0;
+
+				> li {
+					list-style: none;
+					min-width: $menuWidth;
+					border-top: 1px solid $white;
+					white-space: nowrap;
+
+					@include display-flex;
+
+					> a {
+						display: block;
+						height: 100%;
+						min-width: $menuWidth;
+						color: $white;
+						text-decoration: none;
+						font-size: 1.5rem;
+						line-height: 1.6rem;
+
+						> .icon {
+							float: left;
+							margin: 0.3rem;
+						}
+
+						> .menu-text {
+							padding: 1rem 0;
+						}
+					}
+
+					> ul {
+						max-width: 0;
+						max-height: 0;
+						z-index: 100;
+						margin-top: -1px;
+					}
+
+					&:hover {
+						> ul {
+							max-width: $menuWidth * 2;
+							max-height: 100rem;
+						}
+					}
+				}
+			}
+		}
+
+		section.content {
+			> div {
+				position: relative;
+				height: 100%;
+				
+				> * {
+					padding: 0 4rem;
+				}
+
+				> header {
+					font-size: 3rem;
+					padding-top: 2rem;
+				}
+			}
+		}
+	}
+}

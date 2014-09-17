@@ -1,0 +1,82 @@
+body {
+	.dataTables_wrapper {
+		padding: 1rem 0;
+
+		a {
+			cursor: pointer;
+			color: $yellow;
+		}
+
+		input {
+			font-size: 1rem;
+			margin: 0 0.8rem;
+		}
+
+		.dataTables_length {
+			float: right;
+			text-transform: uppercase;
+			font-size: 1.5rem;
+
+
+		}
+		.dataTables_info {
+			 float: right;
+			 text-transform: uppercase;
+		}
+
+		.dataTables_filter {
+			text-transform: uppercase;
+			font-size: 1.5rem;
+		}
+
+		.dataTables_paginate {
+			text-transform: uppercase;
+
+			a {
+				margin-right: 0.5rem;
+			}
+		}
+
+		table {
+			width: 100%;
+			margin: 1.5rem 0;
+
+			a {
+				color: $black;
+			}
+
+			thead {
+
+				th {
+					border: 1px solid $black;
+					border-right: 0;
+					border-top: 0;
+					padding: 0.4rem 0.8rem;
+					vertical-align: middle;
+					font-size: 1.4rem;
+					cursor: pointer;
+
+					&:first-child {
+						border-left: 0;
+					}
+				}
+			}
+
+			tbody {
+				td {
+					border: 1px solid $black;
+					border-right: 0;
+					border-top: 0;
+					border-bottom: 0;
+					padding: 0.4rem 0.8rem;
+					vertical-align: middle;
+					font-size: 1.2rem;
+
+					&:first-child {
+						border-left: 0;
+					}
+				}
+			}
+		}
+	}
+}

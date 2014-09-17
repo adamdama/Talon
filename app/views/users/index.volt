@@ -15,8 +15,8 @@
             {% for user in users %}
                 <tr>
                     <td></td>
-                    <td>{{ user.name }}</td>
-                    <td>{{ user.email }}</td>
+                    <td>{{ link_to('users/edit/'~user.id, user.name) }}</td>
+                    <td>{{ link_to('users/edit/'~user.id, user.email) }}</td>
                     <td>{{ link_to('users/edit/'~user.id, 'edit') }}</td>
                     <td>{{ link_to('users/delete/'~user.id, 'delete') }}</td>
                 </tr>
