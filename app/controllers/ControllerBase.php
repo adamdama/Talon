@@ -30,11 +30,12 @@ class ControllerBase extends Controller
 		Tag::prependTitle($pageTitle);
 
 		// Assets
+		// TODO add minification filter for js and css added in later actions
 		$this->assets->addCss('css/talon.css');
-		$this->assets->addJs('js/talon.js');
+		$this->assets->collection('footer')->addJs('js/talon.min.js');
+		$this->assets->collection('head')->addJs('js/modernizr-2.8.3.js');
 
 		$this->view->setVar('jQuery', $this->includeJquery());
-		$this->view->setVar('modernizr', $this->includeModernizr());
 
 		$this->view->setTemplateAfter('main');
 	}
@@ -174,9 +175,5 @@ class ControllerBase extends Controller
 		$html .= "\n<script>window.jQuery || document.write('".(trim($escaper->escapeJs(Tag::javascriptInclude('js/jquery-1.11.1.min.js'))))."');</script>";
 
 		return $html;
-	}
-
-	private function includeModernizr() {
-		return Tag::javascriptInclude('js/modernizr-2.8.3.js');
 	}
 }

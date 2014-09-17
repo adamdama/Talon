@@ -6,8 +6,8 @@
 		{{ get_title() }}
 
         {{ assets.outputCss() }}
-        <!-- Add Modernizr -->
-        {{ modernizr }}
+        <!-- Add Head JS Scripts -->
+        {{ assets.outputJs('head') }}
 	</head>
 	<body>
         <section class="messages">
@@ -20,6 +20,7 @@
         <!-- Add jQuery -->
         {{ jQuery }}
 
-        {{ assets.outputJs() }}
+        <!-- Add Footer JS Scripts -->
+        {{ assets.outputJs('footer') }}
 	</body>
 </html>
