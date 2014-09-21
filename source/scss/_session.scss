@@ -35,6 +35,13 @@ body {
 			@include box-sizing(border-box);
 		}
 
+		input[type="submit"] {
+			background: $yellow;
+			border: 2px solid $darkGrey;
+
+			@include border-radius(0.2rem);
+		}
+
 		.links {
 			margin-top: 0.6rem;
 

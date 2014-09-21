@@ -37,7 +37,29 @@ body {
 	}
 
 	> section.messages {
-		height: 0;
+		position: relative;
+
+		> div {
+			padding: 0.8rem 2rem;
+			color: $errorSuccessTextColour;
+			font-size: 1.5rem;
+
+			&:last-child {
+				@include box-shadow(10px -6px 16px 10px $shadowGrey);
+			}
+
+			&.noticeMessage {
+				background: $noticeYellow;
+			}
+
+			&.successMessage {
+				background: $successGreen;
+			}
+
+			&.errorMessage {
+				background: $errorRed;
+			}
+		}
 	}
 }
 

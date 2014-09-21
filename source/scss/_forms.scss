@@ -1,0 +1,40 @@
+section.form {
+	margin-top: 2rem;
+	font-size: 1.5rem;
+	color: $contentBodyTextColour;
+
+	form > div {
+		float: left;
+		width: 100%;
+
+		label {
+			width: 6rem;
+
+			@include inline-block(middle);
+
+			&:after {
+				content: ':';
+			}
+		}
+
+		.row {
+			padding: 0.6rem 0;
+			max-width: 20rem;
+		}
+
+		input {
+			width: 100%;
+
+			&[type="submit"] {
+				background: $yellow;
+				border: 2px solid $contentBodyTextColour;
+				width: 100%;
+				margin-top: 0.8rem;
+				padding: 0.6rem 0;
+
+				@include border-radius(0.2rem);
+			}
+
+		}
+	}
+}

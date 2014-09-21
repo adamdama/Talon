@@ -8,23 +8,26 @@
     {{ flashSession.output() }}
 {% endblock %}
 
-{{ form('method': 'post') }}
+<section class="form">
+    {{ form('method': 'post') }}
 
-    {{ form.label('name') }}
-    {{ form.render('name') }}
-    {{ form.messages('name') }}
+    <div>
+        <div class="row">
+            {{ form.render('name') }}
+        </div>
+        <div class="row">
+            {{ form.render('email') }}
+        </div>
+        <div class="row">
+            {{ form.render('password') }}
+        </div>
+        <div class="row">
+            {{ form.render('Save') }}
+        </div>
 
-    {{ form.label('email') }}
-    {{ form.render('email') }}
-    {{ form.messages('email') }}
+        {{ form.render('csrf', ['value': security.getToken()]) }}
+        {{ form.messages('csrf') }}
 
-    {{ form.label('password') }}
-    {{ form.render('password') }}
-    {{ form.messages('password') }}
-
-    {{ form.render('Save') }}
-
-    {{ form.render('csrf', ['value': security.getToken()]) }}
-    {{ form.messages('csrf') }}
-
-{{ end_form() }}
+        {{ end_form() }}
+    </div>
+</section>

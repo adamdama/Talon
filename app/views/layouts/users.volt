@@ -13,7 +13,7 @@
             </a>
         </li>
         <li>
-            <a href="{{ url('users/delete') }}" title="New user">
+            <a href="{{ url('users/delete') }}" title="Delete user">
                 {{ svg_icon(url('img/svg/navigation.svg#nav-trash-icon')) }}
                 <span>Delete</span>
             </a>

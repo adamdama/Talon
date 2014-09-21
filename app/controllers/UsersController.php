@@ -185,11 +185,11 @@ class UsersController extends ControllerBase
 				/** @var \Talon\Models\Users\Users $user */
 				$userName = $user->name;
 				$user->delete();
-				$this->flashSession->notice($userName.' has been deleted.');
+				$this->flashSession->success($userName.' has been deleted.');
 
 				return $this->redirect('users');
 			} else {
-				$this->flashSession->notice('The user was not deleted.');
+				$this->flashSession->error('The user was not deleted.');
 			}
 
 			return $this->redirect('users', 'edit/', array($id));

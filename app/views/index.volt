@@ -14,6 +14,9 @@
 	</head>
 	<body>
         <section class="messages">
+            {%  block flash %}
+                {{ flashSession.output() }}
+            {% endblock %}
         </section>
 
         <section class="page">
