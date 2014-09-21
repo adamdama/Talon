@@ -42,13 +42,13 @@ body {
 			margin: 1.5rem 0;
 
 			a {
-				color: $black;
+				color: $contentBodyTextColour;
 			}
 
 			thead {
 
 				th {
-					border: 1px solid $black;
+					border: 1px solid $contentBodyTextColour;
 					border-right: 0;
 					border-top: 0;
 					padding: 0.4rem 0.8rem;
@@ -64,7 +64,7 @@ body {
 
 			tbody {
 				td {
-					border: 1px solid $black;
+					border: 1px solid $contentBodyTextColour;
 					border-right: 0;
 					border-top: 0;
 					border-bottom: 0;
@@ -74,6 +74,17 @@ body {
 
 					&:first-child {
 						border-left: 0;
+					}
+
+					&.icon {
+						width: 1.5rem;
+						text-align: center;
+
+						svg {
+							width: 1.5rem;
+							height: 1.5rem;
+							fill: $contentBodyTextColour;
+						}
 					}
 				}
 			}

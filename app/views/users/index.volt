@@ -14,11 +14,19 @@
         <tbody>
             {% for user in users %}
                 <tr>
-                    <td></td>
+                    <td class="icon"></td>
                     <td>{{ link_to('users/edit/'~user.id, user.name) }}</td>
                     <td>{{ link_to('users/edit/'~user.id, user.email) }}</td>
-                    <td>{{ link_to('users/edit/'~user.id, 'edit') }}</td>
-                    <td>{{ link_to('users/delete/'~user.id, 'delete') }}</td>
+                    <td class="icon">
+                        <a href="{{ url('users/edit/' ~ user.id) }}" title="Edit User">
+                            {{ svg_icon(url('img/svg/navigation.svg#nav-edit-icon')) }}
+                        </a>
+                    </td>
+                    <td class="icon">
+                        <a href="{{ url('users/delete/' ~ user.id) }}" title="Delete User">
+                            {{ svg_icon(url('img/svg/navigation.svg#nav-trash-icon')) }}
+                        </a>
+                    </td>
                 </tr>
             {% endfor %}
         </tbody>

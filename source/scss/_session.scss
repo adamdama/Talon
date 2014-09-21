@@ -44,7 +44,7 @@ body {
 		}
 		.errorMessage,
 		.successMessage {
-			color: $white;
+			color: $errorSuccessTextColour;
 			margin: 1rem 0;
 			width: 100%;
 			padding: 0.5rem;

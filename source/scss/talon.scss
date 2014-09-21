@@ -3,13 +3,13 @@ $mainFont: 'Yanone Kaffeesatz';
 @import url('http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,300,700');
 
 /** Mixins **/
-@import "compass/css3/box-sizing";
-@import "compass/css3/border-radius";
-@import "compass/css3/box-shadow";
-@import "compass/css3/transition";
-@import "compass/css3/flexbox";
-@import "compass/css3/inline-block";
-@import "compass";
+@import 'compass/css3/box-sizing';
+@import 'compass/css3/border-radius';
+@import 'compass/css3/box-shadow';
+@import 'compass/css3/transition';
+@import 'compass/css3/flexbox';
+@import 'compass/css3/inline-block';
+@import 'compass';
 
 /** Colours **/
 /**
@@ -19,6 +19,7 @@ Alternatives
 #AB8124 - yellow
 #9A9A9A - light grey
 */
+$white: rgb(255, 255, 255);
 $lightGrey: rgb(223,228,235);
 $middleGrey: rgb(183,188,198);
 $yellow: rgb(230,195,42);
@@ -27,9 +28,10 @@ $black: rgb(0, 0, 0);
 
 $shadowGrey: rgba(100, 100, 100, 0.6);
 
+/** Errors and Success */
+$errorSuccessTextColour: $white;
 $errorRed: darkred;
 $successGreen: green;
-$white: white;
 
 /** Menu variables **/
 $menuWidth: 12rem;
@@ -39,11 +41,18 @@ $menuRootBackgroundColour: $darkGrey;
 $menuLayerHighlightColour: $darkGrey;
 $menuLayerBackgroundColour: $yellow;
 
+/** Content variables */
+$contentHeaderColour: $darkGrey;
+$contentBackgroundColour: $white;
+$contentBodyTextColour: $darkGrey;
+
+
 /** Images **/
 $sessionBackground: 'session/background.png';
 
 /** Imports **/
 @import 'normalize';
+@import 'main';
 @import 'data-tables';
-@import "main";
-@import "session";
+@import 'tools';
+@import 'session';
