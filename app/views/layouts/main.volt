@@ -33,7 +33,9 @@
     </nav>
     <section class="content">
         <div>
-            {{  content() }}
+            <div>
+                {{  content() }}
+            </div>
         </div>
     </section>
 </div>

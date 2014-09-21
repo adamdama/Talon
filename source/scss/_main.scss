@@ -171,16 +171,22 @@ body {
 			> div {
 				position: relative;
 				height: 100%;
-				
-				> * {
-					padding: 0 4rem;
-				}
+				width: 100%;
+				overflow: auto;
 
-				> header {
-					font-size: 3rem;
-					padding-top: 2rem;
-					padding-bottom: 1rem;
-					color: $contentHeaderColour;
+				> div {
+					padding: 0 4rem;
+					position: absolute;
+					top: 0;
+					right: 0;
+					left: 0;
+
+					> header {
+						font-size: 3rem;
+						padding-top: 2rem;
+						padding-bottom: 1rem;
+						color: $contentHeaderColour;
+					}
 				}
 			}
 		}

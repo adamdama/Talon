@@ -43,7 +43,8 @@ body {
 			}
 		}
 		.errorMessage,
-		.successMessage {
+		.successMessage,
+		.noticeMessage {
 			color: $errorSuccessTextColour;
 			margin: 1rem 0;
 			width: 100%;
@@ -59,6 +60,10 @@ body {
 
 			&.successMessage {
 				background: $successGreen;
+			}
+
+			&.noticeMessage {
+				background: $noticeYellow;
 			}
 		}
 	}
