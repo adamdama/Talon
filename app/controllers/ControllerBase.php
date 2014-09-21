@@ -116,7 +116,7 @@ class ControllerBase extends Controller
 			if (!is_array($identity)) {
 
 				$this->flashSession->notice('You are not logged in!');
-				return $this->redirect('session/login');
+				return $this->redirect('session', 'login');
 			}
 
 //			// Check if the user have permission to the current option
