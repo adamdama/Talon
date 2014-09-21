@@ -9,13 +9,17 @@
         <ul>
             <li class="users">
                 <a href="{{ url('users') }}" title="Users">
-                    <div class="icon nav-icon-user-icon-small"></div>
+                    <svg>
+                        <use xlink:href="{{ url('img/svg/navigation.svg#nav-user-icon') }}"></use>
+                    </svg>
                     <div class="menu-text">Users</div>
                 </a>
                 <ul>
                     <li class="new">
                         <a href="{{ url('users/new') }}" title="New User">
-                            <div class="icon nav-icon-plus-icon-small"></div>
+                            <svg>
+                                <use xlink:href="{{ url('img/svg/navigation.svg#nav-plus-icon') }}"></use>
+                            </svg>
                             <div class="menu-text">New</div>
                         </a>
                     </li>
@@ -23,7 +27,9 @@
             </li>
             <li class="logout">
                 <a href="{{ url('session/logout') }}" title="Sign Out">
-                    <div class="icon nav-icon-cross-icon-small"></div>
+                    <svg>
+                        <use xlink:href="{{ url('img/svg/navigation.svg#nav-cross-icon') }}"></use>
+                    </svg>
                     <div class="menu-text">Sign Out</div>
                 </a>
             </li>

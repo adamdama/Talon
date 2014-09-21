@@ -8,6 +8,9 @@
         {{ assets.outputCss() }}
         <!-- Add Head JS Scripts -->
         {{ assets.outputJs('head') }}
+
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+
 	</head>
 	<body>
         <section class="messages">

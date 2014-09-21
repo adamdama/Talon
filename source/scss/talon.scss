@@ -33,13 +33,17 @@ $white: white;
 
 /** Menu variables **/
 $menuWidth: 12rem;
+$menuRootHighlightColour: $lightGrey;
+$menuRootBackgroundColour: $darkGrey;
+
+$menuLayerHighlightColour: $darkGrey;
+$menuLayerBackgroundColour: $yellow;
 
 /** Images **/
 $sessionBackground: 'session/background.png';
 
 /** Imports **/
 @import 'normalize';
-@import 'navigation-sprite';
 @import 'data-tables';
 @import "main";
 @import "session";

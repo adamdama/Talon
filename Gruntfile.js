@@ -41,13 +41,6 @@ module.exports = function (grunt) {
 				],
 				dest: '<%= js_build_path %>/talon.js'
 			}
-// ,
-//			plugins: {
-//				src: [
-//					'<%= js_plugin_path %>/jquerypp/jquerypp.custom.js'
-//				],
-//				dest: '<%= js_plugin_path %>/plugins.js'
-//			}
 		},
 		uglify: {
 			js: {
@@ -58,8 +51,10 @@ module.exports = function (grunt) {
 					sourceMappingURL: 'talon.map.js'
 				},
 				files: [
-					{src: '<%= concat.site.dest %>',
-						dest: '<%= js_build_path %>/talon.min.js'}
+					{
+						src: '<%= concat.site.dest %>',
+						dest: '<%= js_build_path %>/talon.min.js'
+					}
 				]
 			}
 //			,
@@ -89,31 +84,14 @@ module.exports = function (grunt) {
 		watch: {
 			sass: {
 				files: ['<%= scss_src_path %>/**', '<%= src_path %>/img/icons/**'],
-				tasks: ['svg-sprites', 'replace', 'compass']
+				tasks: ['watch_css_compile']
 			},
 			js: {
 				files: ['<%= js_src_path %>/**/*.js'],
-				tasks: ['jshint', 'concat', 'uglify', 'copy']
+				tasks: ['watch_js_compile']
 			},
 			options: {
 				livereload: true
-			}
-		},
-		'svg-sprites': {
-			navigation: {
-				options: {
-					spriteElementPath: '<%= src_path %>/img/icons/navigation',
-					spritePath: '<%= image_path %>/sprites/navigation.svg',
-					cssPath: '<%= scss_src_path %>/_navigation-sprite.scss',
-					prefix: 'nav-icon',
-					layout: 'packed',
-					cssUnit: "rem",
-					sizes: {
-						large: 24,
-						small: 2
-					},
-					refSize: 'large'
-				}
 			}
 		},
 		copy: {
@@ -139,6 +117,38 @@ module.exports = function (grunt) {
 					to: ''
 				}]
 			}
+		},
+		svgstore: {
+			options: {
+				prefix: 'nav-'
+			},
+			navigation: {
+				files: {
+					'<%= image_path %>/svg/navigation.svg': ['<%= src_path %>/img/icons/navigation/*.svg']
+				}
+			}
+		},
+		svgmin: {
+			options: {
+				plugins: [
+					{
+						removeViewBox: false
+					}, {
+						removeUselessStrokeAndFill: false
+					}, {
+						cleanupIDs: false
+					}, {
+						convertTransforms: true
+					}, {
+						transformsWithOnePath: true
+					}
+				]
+			},
+			navigation: {
+				files: {
+					'public/img/svg/navigation.svg': 'public/img/svg/navigation.svg'
+				}
+			}
 		}
 	});
 
@@ -149,8 +159,8 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-contrib-compass');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-watch');
-	grunt.loadNpmTasks('grunt-dr-svg-sprites');
-	grunt.loadNpmTasks('grunt-text-replace');
+	grunt.loadNpmTasks('grunt-svgmin');
+	grunt.loadNpmTasks('grunt-svgstore');
 
 	/**
 	 npm install grunt
@@ -159,12 +169,16 @@ module.exports = function (grunt) {
 	 npm install grunt-contrib-uglify --save-dev
 	 npm install grunt-contrib-compass --save-dev
 	 npm install grunt-contrib-watch --save-dev
-	 npm install grunt-dr-svg-sprites --save-dev
-	 npm install grunt-text-replace --save-dev
+	 npm install grunt-svgmin --save-dev
+	 npm install grunt-svgstore --save-dev
 	 */
 
 	// Default task
 	grunt.registerTask('default', 'watch');
-	grunt.registerTask('compilenohint', ['svg-sprites', 'replace', 'compass', 'concat', 'uglify', 'copy']);
-	grunt.registerTask('compile', ['svg-sprites', 'replace', 'compass', 'jshint', 'concat', 'uglify', 'copy']);
+	grunt.registerTask('compilenohint', ['svgstore', 'svgmin', 'compass', 'concat', 'uglify', 'copy']);
+	grunt.registerTask('compile', ['svgstore', 'svgmin', 'compass', 'jshint', 'concat', 'uglify', 'copy']);
+
+	// Aliases for watch
+	grunt.registerTask('watch_css_compile', ['svgstore', 'svgmin', 'compass']);
+	grunt.registerTask('watch_js_compile', ['jshint', 'concat', 'uglify', 'copy']);
 };
