@@ -1,26 +1,22 @@
 {# app/views/users/changePassword.volt #}
 
-{%  block content %}
-    {{  content() }}
-{% endblock %}
+<section class="form">
+    {{ form('method': 'post') }}
 
-{%  block flash %}
-    {{ flashSession.output() }}
-{% endblock %}
+    <div>
+        <div class="row">
+            {{ form.render('password') }}
+        </div>
+        <div class="row">
+            {{ form.render('confirmPassword') }}
+        </div>
+        <div class="row">
+            {{ form.render('Change Password') }}
+        </div>
 
-{{ form('method': 'post') }}
+        {{ form.render('csrf', ['value': security.getToken()]) }}
+        {{ form.messages('csrf') }}
 
-    {{ form.label('password') }}
-    {{ form.render('password') }}
-    {{ form.messages('password') }}
-
-    {{ form.label('confirmPassword') }}
-    {{ form.render('confirmPassword') }}
-    {{ form.messages('confirmPassword') }}
-
-    {{ form.render('Change Password') }}
-
-    {{ form.render('csrf', ['value': security.getToken()]) }}
-    {{ form.messages('csrf') }}
-
-{{ end_form() }}
+        {{ end_form() }}
+    </div>
+</section>

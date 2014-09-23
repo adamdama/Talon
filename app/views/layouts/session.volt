@@ -2,6 +2,6 @@
 
 <div id="session-background"></div>
 
-<div id="session">
+<section id="session">
     {{  content() }}
-</div>
+</section>

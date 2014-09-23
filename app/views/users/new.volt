@@ -1,13 +1,5 @@
 {# app/views/users/new.volt #}
 
-{%  block content %}
-    {{  content() }}
-{% endblock %}
-
-{%  block flash %}
-    {{ flashSession.output() }}
-{% endblock %}
-
 <section class="form">
     {{ form('method': 'post') }}
 

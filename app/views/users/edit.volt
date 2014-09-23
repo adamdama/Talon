@@ -1,38 +1,40 @@
 {# app/views/users/new.volt #}
 
-{%  block content %}
-    {{  content() }}
-{% endblock %}
+<section class="form">
+    {{ form('method': 'post') }}
 
-{%  block flash %}
-    {{ flashSession.output() }}
-{% endblock %}
+    <div>
+        <div class="row">
+            {{ form.render('id') }}
+        </div>
+        <div class="row">
+            {{ form.render('name') }}
+        </div>
+        <div class="row">
+            {{ form.render('email') }}
+        </div>
+        <div class="row">
+            {{ form.render('password') }}
+        </div>
+        <div class="row">
+            {{ form.label('validated') }}
+            {{ form.render('validated') }}
+        </div>
+        <div class="row">
+            {{ form.label('active') }}
+            {{ form.render('active') }}
+        </div>
+        <div class="row">
+            {{ form.render('Save') }}
+            <a href="{{ url('users/delete/' ~ user.id ~ '/yes') }}" title="Delete user">
+                {{ svg_icon(url('img/svg/navigation.svg#nav-trash-icon')) }}
+                <span>Delete User</span>
+            </a>
+        </div>
 
-{{ form('method': 'post') }}
+        {{ form.render('csrf', ['value': security.getToken()]) }}
+        {{ form.messages('csrf') }}
 
-    {{ form.render('id') }}
-
-    {{ form.label('name') }}
-    {{ form.render('name') }}
-    {{ form.messages('name') }}
-
-    {{ form.label('email') }}
-    {{ form.render('email') }}
-    {{ form.messages('email') }}
-
-    {{ form.label('validated') }}
-    {{ form.render('validated') }}
-    {{ form.messages('validated') }}
-
-    {{ form.label('active') }}
-    {{ form.render('active') }}
-    {{ form.messages('active') }}
-
-    {{ form.render('Save') }}
-
-    {{ link_to('users/delete/'~user.id~'/yes', 'delete') }}
-
-    {{ form.render('csrf', ['value': security.getToken()]) }}
-    {{ form.messages('csrf') }}
-
-{{ end_form() }}
+        {{ end_form() }}
+    </div>
+</section>
