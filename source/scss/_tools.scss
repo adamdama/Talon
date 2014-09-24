@@ -28,6 +28,11 @@ body {
 						float: left;
 						margin-right: 0.2rem;
 					}
+
+					&.inactive {
+						cursor: default;
+						@include opacity(0.5);
+					}
 				}
 			}
 		}

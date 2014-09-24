@@ -63,27 +63,34 @@ section.list {
 			}
 
 			tbody {
-				td {
-					border: 1px solid $contentBodyTextColour;
-					border-right: 0;
-					border-top: 0;
-					border-bottom: 0;
-					padding: 0.4rem 0.8rem;
-					vertical-align: middle;
-					font-size: 1.2rem;
 
-					&:first-child {
-						border-left: 0;
+				tr {
+					&:nth-child(2) {
+						background: $yellow50;
 					}
 
-					&.icon {
-						width: 1.5rem;
-						text-align: center;
+					td {
+						border: 1px solid $contentBodyTextColour;
+						border-right: 0;
+						border-top: 0;
+						border-bottom: 0;
+						padding: 0.4rem 0.8rem;
+						vertical-align: middle;
+						font-size: 1.2rem;
 
-						svg {
+						&:first-child {
+							border-left: 0;
+						}
+
+						&.icon {
 							width: 1.5rem;
-							height: 1.5rem;
-							fill: $contentBodyTextColour;
+							text-align: center;
+
+							svg {
+								width: 1.5rem;
+								height: 1.5rem;
+								fill: $contentBodyTextColour;
+							}
 						}
 					}
 				}

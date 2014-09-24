@@ -4,7 +4,6 @@
     <table class="dataTable">
         <thead>
             <tr>
-                <th></th>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Edit</th>
@@ -14,7 +13,6 @@
         <tbody>
             {% for user in users %}
                 <tr>
-                    <td class="icon"></td>
                     <td>{{ link_to('users/edit/'~user.id, user.name) }}</td>
                     <td>{{ link_to('users/edit/'~user.id, user.email) }}</td>
                     <td class="icon">

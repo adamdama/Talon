@@ -20,13 +20,14 @@ Alternatives
 #9A9A9A - light grey
 */
 $white: rgb(255, 255, 255);
-$lightGrey: rgb(223,228,235);
-$middleGrey: rgb(183,188,198);
-$yellow: rgb(230,195,42);
-$darkGrey: rgb(41,41,41);
+$lightGrey: rgb(223, 228, 235);
+$middleGrey: rgb(183, 188, 198);
+$yellow: rgb(230, 195, 42);
+$darkGrey: rgb(41, 41, 41);
 $black: rgb(0, 0, 0);
 
 $shadowGrey: rgba(100, 100, 100, 0.6);
+$yellow50: rgba(230, 195, 42, 0.5);
 
 /** Errors and Success */
 $errorSuccessTextColour: $white;
